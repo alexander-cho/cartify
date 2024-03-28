@@ -34,6 +34,10 @@ class Product(models.Model):
     description = models.CharField(max_length=250, default='', blank=True, null=True)
     image = models.ImageField(upload_to='uploads/product/')
 
+    # On sale products
+    is_on_sale = models.BooleanField(default=False) # by default product is not on sale
+    sale_price = models.DecimalField(default=0, decimal_places=2, max_digits=6)
+
     def __str__(self) -> str:
         return self.name
     
