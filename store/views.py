@@ -4,6 +4,11 @@ from .models import Product
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from .forms import SignUpForm
+from django import forms
+
 # Create your views here.
 def home(request):
     products = Product.objects.all()
@@ -34,3 +39,23 @@ def logout_user(request):
     logout(request)
     messages.success(request, ('You have been logged out'))
     return redirect('home')
+
+
+def register_user(request):
+    form = SignUpForm()
+    if request.method == 'POST':
+        form = SignUpForm(request.POST) # take all the data that user typed into the form and put it into SignUpForm for use
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            # login user
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, ('You have successfully registered an account'))
+            return redirect('home')
+        else:
+            messages.success(request, ('There was a problem registering, try again'))
+            return redirect('register')
+    else:
+        return render(request, 'store/register.html', {'form': form})
