@@ -20,8 +20,11 @@ def add_to_cart(request):
         product = get_object_or_404(Product, id=product_id)
         # save to session
         cart.add(product=product)
+        # get cart quantity
+        cart_quantity = cart.__len__()
         # return response
-        response = JsonResponse({'Product name: ': product.name})
+        # response = JsonResponse({'Product name: ': product.name})
+        response = JsonResponse({'quantity': cart_quantity}) # passed into jquery success function
         return response
 
 
