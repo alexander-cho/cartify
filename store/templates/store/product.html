@@ -29,23 +29,25 @@
                   </p>
                 </div>
                 <a href="{% url 'home' %}" class="btn btn-primary">Go back</a> <br> <br>
-                <button value="{{ product.id }}" id="add-to-cart" class="btn btn-secondary">Add to Cart</button>
+                <button value="{{ product.id }}" id="cart-add" class="btn btn-secondary">Add to Cart</button>
               </div>
             </div>
         </div>
     </div>
 
+
+    <!-- https://stackoverflow.com/questions/65641419/ajax-post-request-with-django-and-python -->
     <script>
       // check if button is pressed
-      $(document).on('click', '#add-to-cart', function(e) {
+      $(document).on('click', '#cart-add', function(e) {
         e.preventDefault();
         $.ajax({
           type: 'POST', // POST method for ajax request
           url: "{% url 'add-to-cart' %}", // name as defined in urls.py, url to which the request is sent
           data: {
-            product_id: $('#add-to-cart').val(), // from id in button above, pass data of value tag (product.id)
+            product_id: $('#cart-add').val(), // from id in button above, pass data of value tag (product.id)
             csrfmiddlewaretoken: '{{ csrf_token }}',
-            action: 'POST'
+            action: 'post'
           },
           success: function(json){
             console.log(json)
