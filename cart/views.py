@@ -6,7 +6,9 @@ from django.http import JsonResponse
 # Create your views here.
 
 def cart_overview(request):
-    return render(request, 'cart/overview.html', {})
+    cart = Cart(request)
+    cart_contents = cart.get_cart()
+    return render(request, 'cart/overview.html', {'cart_contents': cart_contents})
 
 
 def add_to_cart(request):

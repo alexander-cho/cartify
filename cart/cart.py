@@ -1,3 +1,5 @@
+from store.models import Product
+
 
 class Cart():
     def __init__(self, request) -> None:
@@ -15,6 +17,14 @@ class Cart():
         self.cart = cart
 
 
+    def get_cart(self):
+        # get ids from cart
+        product_ids = self.cart.keys() # set up as dictionary as defined in product template jquery and add view {product_id: price}
+        # use ids to look up products in DB model
+        products = Product.objects.filter(id__in=product_ids)
+        return products
+
+
     def add(self, product):
         product_id = str(product.id)
         if product_id in self.cart:
@@ -23,6 +33,8 @@ class Cart():
             self.cart[product_id] = {'Price:': str(product.price)}
         
         self.session.modified = True
+
+
 
     '''
     return the length of the cart
