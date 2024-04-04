@@ -24,8 +24,19 @@
                     {{ product.sale_price }}
                   {% else %}
                     <strong>Product Id: {{ product.id }}</strong> <br>
-                    ${{ product.price }}
+                    ${{ product.price }} <br>
                   {% endif %}
+                  <!-- Dropdown bar to select quantity -->
+                  <div class="row justify-content-center">
+                    <select class="form-select" aria-label="Default select example" id="quantity-dropdown">
+                      <option selected>Select quantity</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="3">4</option>
+                      <option value="3">5</option>
+                    </select>
+                  </div>
                   </p>
                 </div>
                 <a href="{% url 'home' %}" class="btn btn-primary">Go back</a> <br> <br>
@@ -46,6 +57,7 @@
           url: "{% url 'add-to-cart' %}", // name as defined in urls.py, url to which the request is sent
           data: {
             product_id: $('#cart-add').val(), // from id in button above, pass data of value tag (product.id)
+            product_quantity: $('#quantity-dropdown option:selected').text(), // get data from quantity dropdown from above
             csrfmiddlewaretoken: '{{ csrf_token }}',
             action: 'post'
           },
