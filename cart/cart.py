@@ -42,6 +42,24 @@ class Cart():
         self.session.modified = True
 
 
+    def update(self, product, quantity):
+        # shopping cart looks like: {'1': 3}, where product id is a string and quantity is an integer
+        product_id = str(product)
+        product_quantity = int(quantity)
+
+        # get cart in order to update the session
+        cart_to_update = self.cart
+
+        # update cart (dictionary)
+        cart_to_update[product_id] = product_quantity
+
+        self.session.modified = True
+
+        updated_cart = self.cart
+        return updated_cart
+
+
+
 
     '''
     return the length of the cart

@@ -28,13 +28,13 @@
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title">{{ product.name }}</h5>
-                  <p class="card-text">{{ product.description }}</p>
-                  <p class="card-text"><small class="text-body-secondary">Uploaded on:</small></p>
-                  <p class="card-text"><small class="text-body-secondary">Number in stock:</small></p>
-                  <p class="card-text"><small class="text-body-secondary">Last purchased on:</small></p>
-                  <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                  <p>
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.description }}</p>
+                    <p class="card-text"><small class="text-body-secondary">Uploaded on:</small></p>
+                    <p class="card-text"><small class="text-body-secondary">Number in stock:</small></p>
+                    <p class="card-text"><small class="text-body-secondary">Last purchased on:</small></p>
+                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                    <p>
                   {% if product.is_on_sale %}
                     <!-- Product price-->
                     <strike>${{ product.price }}</strike>
@@ -44,7 +44,8 @@
                     ${{ product.price }} <br>
                     <!-- Dropdown bar to select quantity -->
                     <div class="row justify-content-center">
-                        <select class="form-select" aria-label="Default select example" id="quantity-dropdown">
+                        <!-- id="select{{ product.id }} gives each dropdown bar for each product an id to know which one we are updating" -->
+                        <select class="form-select" aria-label="Default select example" id="select{{ product.id }}">
                         <!-- display current item quantity in dropdown -->
                         {% for k, v in quantities.items %}
                             {% if k == product.id|slugify %} <!-- product.id originally an int, convert to string to compare with key -->
@@ -62,7 +63,7 @@
                   </p>
                 </div>
                 <a href="{% url 'home' %}" class="btn btn-primary">Go back</a> <br> <br>
-                <button value="{{ product.id }}" id="cart-add" class="btn btn-secondary">Add to Cart</button>
+                <button type="button" data-index="{{ product.id }}" class="btn btn-secondary" id="cart-update">Update Quantity</button> <!-- data-index: since there be numerous update quantity buttons, assign product.id to each product-->
               </div>
             </div>
         </div>
@@ -75,15 +76,32 @@
     {% endif %}
 </div>
 <br><br><br><br><br><br><br><br><br><br><br><br>
+
+<script>
+    // check if button is pressed
+    $(document).on('click', '#cart-update', function(e) {
+        e.preventDefault();
+        // grab product id
+        var productId = $(this).data('index') // call data-index defined in button html above to get 'this' product id
+        $.ajax({
+            type: 'POST', // POST method for ajax request
+            url: "{% url 'update-cart' %}", // name as defined in urls.py, url to which the request is sent
+            data: {
+                product_id: productId, // pass from this product id defined above
+                product_quantity: $('#select' + productId + ' option:selected').text(), // id="select{{ product.id }}" line 48
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(json){
+                // reload page
+                location.reload();
+            },
+            error: function(xhr, errmsg, err){
+            
+            }
+        });
+    })
+</script>
+
 {% endblock %}
-
-
-<!-- Footer-->
-<footer class="py-5 bg-dark">
-    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2024</p></div>
-</footer>
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="{% static 'js/scripts.js' %}"></script>
 
