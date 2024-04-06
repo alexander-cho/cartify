@@ -1,74 +1,74 @@
 {% extends 'store/base.html' %}
 
 {% block content %}
-    
-    <div class="container">
-        <br>
-        <div class="card mb-3">
-            <div class="row g-0">
-              <div class="col-md-4">
+
+<div class="container">
+    <br>
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-4">
                 <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
-              </div>
-              <div class="col-md-8">
+            </div>
+            <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title">{{ product.name }}</h5>
-                  <p class="card-text">{{ product.description }}</p>
-                  <p class="card-text"><small class="text-body-secondary">Uploaded on:</small></p>
-                  <p class="card-text"><small class="text-body-secondary">Number in stock:</small></p>
-                  <p class="card-text"><small class="text-body-secondary">Last purchased on:</small></p>
-                  <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                  <p>
-                  {% if product.is_on_sale %}
-                    <!-- Product price-->
-                    <strike>${{ product.price }}</strike>
-                    {{ product.sale_price }}
-                  {% else %}
-                    <strong>Product Id: {{ product.id }}</strong> <br>
-                    ${{ product.price }} <br>
-                  {% endif %}
-                  <!-- Dropdown bar to select quantity -->
-                  <div class="row justify-content-center">
-                    <select class="form-select" aria-label="Default select example" id="quantity-dropdown">
-                      <option selected>Select quantity</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="3">4</option>
-                      <option value="3">5</option>
-                    </select>
-                  </div>
-                  </p>
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.description }}</p>
+                    <p class="card-text"><small class="text-body-secondary">Uploaded on:</small></p>
+                    <p class="card-text"><small class="text-body-secondary">Number in stock:</small></p>
+                    <p class="card-text"><small class="text-body-secondary">Last purchased on:</small></p>
+                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                    <p>
+                        {% if product.is_on_sale %}
+                        <!-- Product price-->
+                        <strike>${{ product.price }}</strike>
+                        {{ product.sale_price }}
+                        {% else %}
+                        <strong>Product Id: {{ product.id }}</strong> <br>
+                        ${{ product.price }} <br>
+                        {% endif %}
+                        <!-- Dropdown bar to select quantity -->
+                    <div class="row justify-content-center">
+                        <select class="form-select" aria-label="Default select example" id="quantity-dropdown">
+                            <option selected>Select quantity</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="3">4</option>
+                            <option value="3">5</option>
+                        </select>
+                    </div>
+                    </p>
                 </div>
                 <a href="{% url 'home' %}" class="btn btn-primary">Go back</a> <br> <br>
                 <button value="{{ product.id }}" id="cart-add" class="btn btn-secondary">Add to Cart</button>
-              </div>
             </div>
         </div>
     </div>
+</div>
 
 
-    <!-- https://stackoverflow.com/questions/65641419/ajax-post-request-with-django-and-python -->
-    <script>
-      // check if button is pressed
-      $(document).on('click', '#cart-add', function(e) {
+<!-- https://stackoverflow.com/questions/65641419/ajax-post-request-with-django-and-python -->
+<script>
+    // check if button is pressed
+    $(document).on('click', '#cart-add', function(e) {
         e.preventDefault();
         $.ajax({
-          type: 'POST', // POST method for ajax request
-          url: "{% url 'add-to-cart' %}", // name as defined in urls.py, url to which the request is sent
-          data: {
-            product_id: $('#cart-add').val(), // from id in button above, pass data of value tag (product.id)
-            product_quantity: $('#quantity-dropdown option:selected').text(), // get data from quantity dropdown from above
-            csrfmiddlewaretoken: '{{ csrf_token }}',
-            action: 'post'
-          },
-          success: function(json){
-            console.log(json)
-            document.getElementById('cart-quantity').textContent = json.quantity
-          },
-          error: function(xhr, errmsg, err){
+            type: 'POST', // POST method for ajax request
+            url: "{% url 'add-to-cart' %}", // name as defined in urls.py, url to which the request is sent
+            data: {
+                product_id: $('#cart-add').val(), // from id in button above, pass data of value tag (product.id)
+                product_quantity: $('#quantity-dropdown option:selected').text(), // get data from quantity dropdown from above
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(json) {
+                console.log(json) // json response form add_to_cart view
+                document.getElementById('cart-quantity').textContent = json.quantity
+            },
+            error: function(xhr, errmsg, err) {
 
-          }
+            }
         });
-      })
-    </script>
+    })
+</script>
 {% endblock %}
