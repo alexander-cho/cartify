@@ -36,7 +36,7 @@ def add_to_cart(request):
 
         # return response
         # response = JsonResponse({'Product name: ': product.name})
-        response = JsonResponse({'quantity': cart_quantity}) # passed into jquery success function
+        response = JsonResponse({'quantity': cart_quantity}) # passed into jquery success function store/product.html
 
         return response
 
@@ -55,7 +55,14 @@ def update_cart(request):
     
         
 
-
-
 def delete_from_cart(request):
-    pass
+    cart = Cart(request)
+
+    if request.POST.get('action') == 'post':
+        product_id = int(request.POST.get('product_id'))
+        
+        cart.delete(product=product_id)
+        
+        response = JsonResponse({'you have removed': product_id})
+        return response
+

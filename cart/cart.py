@@ -59,6 +59,16 @@ class Cart():
         return updated_cart
 
 
+    def delete(self, product):
+        product_id = str(product)
+
+        # delete from cart
+        if product_id in self.cart:
+            del self.cart[product_id]
+        else:
+            pass
+
+        self.session.modified = True
 
 
     '''

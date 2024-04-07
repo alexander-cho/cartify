@@ -64,6 +64,7 @@
                 </div>
                 <a href="{% url 'home' %}" class="btn btn-primary">Go back</a> <br> <br>
                 <button type="button" data-index="{{ product.id }}" class="btn btn-secondary" id="cart-update">Update Quantity</button> <!-- data-index: since there be numerous update quantity buttons, assign product.id to each product-->
+                <button type="button" data-index="{{ product.id }}" class="btn btn-danger" id="cart-delete">Remove from cart</button>
               </div>
             </div>
         </div>
@@ -78,6 +79,7 @@
 <br><br><br><br><br><br><br><br><br><br><br><br>
 
 <script>
+    // UPDATE CART
     // check if button is pressed
     $(document).on('click', '#cart-update', function(e) {
         e.preventDefault();
@@ -89,6 +91,28 @@
             data: {
                 product_id: productId, // pass from this product id defined above
                 product_quantity: $('#select' + productId + ' option:selected').text(), // id="select{{ product.id }}" line 48
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(json){
+                console.log(json)
+            },
+            error: function(xhr, errmsg, err){
+            
+            }
+        });
+    })
+
+
+    // REMOVE FROM CART
+    // check if button is pressed
+    $(document).on('click', '#cart-delete', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST', // POST method for ajax request
+            url: "{% url 'delete-from-cart' %}", // name as defined in urls.py, url to which the request is sent
+            data: {
+                product_id: productId, // pass from this product id defined above
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: 'post'
             },
