@@ -1,0 +1,23 @@
+{% extends 'store/base.html' %}
+
+{% load static %}
+
+
+{% include 'store/navbar.html' %}
+{% block content %}
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">All Products</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Browse for your favorite category</p>
+        </div>
+    </div>
+</header>
+<!-- Section-->
+<p>
+{% for category in categories %}
+    <h4><a href="{% url 'category' category.name %}">{{ category }}</a><br></h4>
+{% endfor %}
+</p>
+{% endblock %}

@@ -77,3 +77,9 @@ def category(request, c):
     # except:
     #     messages.success(request, ('That category does not exist'))
     #     return redirect('home')
+
+
+def category_summary(request):
+    # grab all distinct categories
+    categories = Category.objects.all()
+    return render(request, 'store/category_summary.html', {'categories': categories})
