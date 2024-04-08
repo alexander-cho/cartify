@@ -71,15 +71,25 @@ class Cart():
         self.session.modified = True
 
 
-    def calculate_cart_total(self):
-        totals = []
-        for k, v in self.cart.items:
-            item_total = int(k.price) * v
-            totals.append(item_total)
+    def calculate_total(self):
+        # get product IDs and products that exist in the current cart
+        product_ids = self.cart.keys()
+        products = Product.objects.filter(id__in=product_ids)
 
-        subtotal = sum(totals)
-        return subtotal
+        total = 0
+        for k, v in self.cart.items():
+            k = int(k) # convert from string of id into integer in order to compare with integer pk id of DB
+            for product in products:
+                if k == product.id:
+                    # account for if product is on sale
+                    if product.is_on_sale:
+                        each_item_total = product.sale_price * v
+                        total += each_item_total
+                    else:
+                        each_item_total = product.price * v
+                        total += each_item_total
 
+        return total
 
 
 

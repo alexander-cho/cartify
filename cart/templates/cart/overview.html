@@ -73,11 +73,13 @@
         </div>
     </div>
     {% endfor %}
+    <h3>CART TOTAL: ${{ cart_total }}</h3>
     {% else %}
     <div class="container">
         <h4>Your cart is empty.</h4>
     </div>
     {% endif %}
+
 </div>
 <br><br><br><br><br><br><br><br><br><br><br><br>
 
@@ -111,6 +113,7 @@
     // check if button is pressed
     $(document).on('click', '#cart-delete', function (e) {
         e.preventDefault();
+        var productId = $(this).data('index')
         $.ajax({
             type: 'POST', // POST method for ajax request
             url: "{% url 'delete-from-cart' %}", // name as defined in urls.py, url to which the request is sent

@@ -9,8 +9,8 @@ def cart_overview(request):
     cart = Cart(request)
     cart_contents = cart.get_cart()
     quantities = cart.get_quantities() # dictionary- {product id: quantity}
-
-    return render(request, 'cart/overview.html', {'cart_contents': cart_contents, 'quantities': quantities})
+    cart_total = cart.calculate_total()
+    return render(request, 'cart/overview.html', {'cart_contents': cart_contents, 'quantities': quantities, 'cart_total': cart_total})
 
 
 def add_to_cart(request):
