@@ -23,57 +23,60 @@
         <br>
         <div class="card mb-3">
             <div class="row g-0">
-              <div class="col-md-4">
-                <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title">{{ product.name }}</h5>
-                    <p class="card-text">{{ product.description }}</p>
-                    <p class="card-text"><small class="text-body-secondary">Uploaded on:</small></p>
-                    <p class="card-text"><small class="text-body-secondary">Number in stock:</small></p>
-                    <p class="card-text"><small class="text-body-secondary">Last purchased on:</small></p>
-                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                    <p>
-                  {% if product.is_on_sale %}
-                    <!-- Product price-->
-                    <strike>${{ product.price }}</strike>
-                    {{ product.sale_price }}
-                  {% else %}
-                    <strong>Product Id: {{ product.id }}</strong> <br>
-                    ${{ product.price }} <br>
-                    <!-- Dropdown bar to select quantity -->
-                    <div class="row justify-content-center">
-                        <!-- id="select{{ product.id }} gives each dropdown bar for each product an id to know which one we are updating" -->
-                        <select class="form-select" aria-label="Default select example" id="select{{ product.id }}">
-                        <!-- display current item quantity in dropdown -->
-                        {% for k, v in quantities.items %}
-                            {% if k == product.id|slugify %} <!-- product.id originally an int, convert to string to compare with key -->
-                            <option selected>{{ v }}</option>
-                            {% endif %}
-                        {% endfor %}
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="3">4</option>
-                        <option value="3">5</option>
-                        </select>
-                    </div>
-                  {% endif %}
-                  </p>
+                <div class="col-md-4">
+                    <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
                 </div>
-                <a href="{% url 'home' %}" class="btn btn-primary">Go back</a> <br> <br>
-                <button type="button" data-index="{{ product.id }}" class="btn btn-secondary" id="cart-update">Update Quantity</button> <!-- data-index: since there be numerous update quantity buttons, assign product.id to each product-->
-                <button type="button" data-index="{{ product.id }}" class="btn btn-danger" id="cart-delete">Remove from cart</button>
-              </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text"><small class="text-body-secondary">Uploaded on:</small></p>
+                        <p class="card-text"><small class="text-body-secondary">Number in stock:</small></p>
+                        <p class="card-text"><small class="text-body-secondary">Last purchased on:</small></p>
+                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                        <p>
+                            {% if product.is_on_sale %}
+                            <!-- Product price-->
+                            <strike>${{ product.price }}</strike>
+                            {{ product.sale_price }}
+                            {% else %}
+                            ${{ product.price }} <br>
+                            <!-- Dropdown bar to select quantity -->
+                        <div class="row justify-content-center">
+                            <!-- id="select{{ product.id }} gives each dropdown bar for each product an id to know which one we are updating" -->
+                            <select class="form-select" aria-label="Default select example" id="select{{ product.id }}">
+                                <!-- display current item quantity in dropdown -->
+                                {% for k, v in quantities.items %}
+                                {% if k == product.id|slugify %}
+                                <!-- product.id originally an int, convert to string to compare with key -->
+                                <option selected>{{ v }}</option>
+                                {% endif %}
+                                {% endfor %}
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="3">4</option>
+                                <option value="3">5</option>
+                            </select>
+                        </div>
+                        {% endif %}
+                        </p>
+                    </div>
+                    <a href="{% url 'home' %}" class="btn btn-primary">Go back</a> <br> <br>
+                    <button type="button" data-index="{{ product.id }}" class="btn btn-secondary"
+                        id="cart-update">Update Quantity</button>
+                    <!-- data-index: since there be numerous update quantity buttons, assign product.id to each product-->
+                    <button type="button" data-index="{{ product.id }}" class="btn btn-danger" id="cart-delete">Remove
+                        from cart</button>
+                </div>
             </div>
         </div>
     </div>
     {% endfor %}
     {% else %}
-        <div class="container">
-            <h4>Your cart is empty.</h4>
-        </div>
+    <div class="container">
+        <h4>Your cart is empty.</h4>
+    </div>
     {% endif %}
 </div>
 <br><br><br><br><br><br><br><br><br><br><br><br>
@@ -81,7 +84,7 @@
 <script>
     // UPDATE CART
     // check if button is pressed
-    $(document).on('click', '#cart-update', function(e) {
+    $(document).on('click', '#cart-update', function (e) {
         e.preventDefault();
         // grab product id
         var productId = $(this).data('index') // call data-index defined in button html above to get 'this' product id
@@ -94,11 +97,11 @@
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: 'post'
             },
-            success: function(json){
+            success: function (json) {
                 console.log(json)
             },
-            error: function(xhr, errmsg, err){
-            
+            error: function (xhr, errmsg, err) {
+
             }
         });
     })
@@ -106,7 +109,7 @@
 
     // REMOVE FROM CART
     // check if button is pressed
-    $(document).on('click', '#cart-delete', function(e) {
+    $(document).on('click', '#cart-delete', function (e) {
         e.preventDefault();
         $.ajax({
             type: 'POST', // POST method for ajax request
@@ -116,11 +119,11 @@
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: 'post'
             },
-            success: function(json){
+            success: function (json) {
                 console.log(json)
             },
-            error: function(xhr, errmsg, err){
-            
+            error: function (xhr, errmsg, err) {
+
             }
         });
     })

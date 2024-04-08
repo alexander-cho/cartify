@@ -71,6 +71,18 @@ class Cart():
         self.session.modified = True
 
 
+    def calculate_cart_total(self):
+        totals = []
+        for k, v in self.cart.items:
+            item_total = int(k.price) * v
+            totals.append(item_total)
+
+        subtotal = sum(totals)
+        return subtotal
+
+
+
+
     '''
     return the length of the cart
     '''

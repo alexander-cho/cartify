@@ -65,4 +65,6 @@ def delete_from_cart(request):
         
         response = JsonResponse({'you have removed': product_id})
         return response
+    
+
 
