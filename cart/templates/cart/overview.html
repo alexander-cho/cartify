@@ -39,35 +39,51 @@
                             <!-- Product price-->
                             <strike>${{ product.price }}</strike>
                             {{ product.sale_price }}
+                            <!-- Dropdown bar to select quantity -->
+                            <div class="row justify-content-center">
+                                <!-- id="select{{ product.id }} gives each dropdown bar for each product an id to know which one we are updating" -->
+                                <select class="form-select" aria-label="Default select example" id="select{{ product.id }}">
+                                    <!-- display current item quantity in dropdown -->
+                                    {% for k, v in quantities.items %}
+                                    {% if k == product.id|slugify %}
+                                    <!-- product.id originally an int, convert to string to compare with key -->
+                                    <option selected>{{ v }}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="3">4</option>
+                                    <option value="3">5</option>
+                                </select>
+                            </div>
                             {% else %}
                             ${{ product.price }} <br>
                             <!-- Dropdown bar to select quantity -->
-                        <div class="row justify-content-center">
-                            <!-- id="select{{ product.id }} gives each dropdown bar for each product an id to know which one we are updating" -->
-                            <select class="form-select" aria-label="Default select example" id="select{{ product.id }}">
-                                <!-- display current item quantity in dropdown -->
-                                {% for k, v in quantities.items %}
-                                {% if k == product.id|slugify %}
-                                <!-- product.id originally an int, convert to string to compare with key -->
-                                <option selected>{{ v }}</option>
-                                {% endif %}
-                                {% endfor %}
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="3">4</option>
-                                <option value="3">5</option>
-                            </select>
-                        </div>
+                            <div class="row justify-content-center">
+                                <!-- id="select{{ product.id }} gives each dropdown bar for each product an id to know which one we are updating" -->
+                                <select class="form-select" aria-label="Default select example" id="select{{ product.id }}">
+                                    <!-- display current item quantity in dropdown -->
+                                    {% for k, v in quantities.items %}
+                                    {% if k == product.id|slugify %}
+                                    <!-- product.id originally an int, convert to string to compare with key -->
+                                    <option selected>{{ v }}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="3">4</option>
+                                    <option value="3">5</option>
+                                </select>
+                            </div>
                         {% endif %}
                         </p>
                     </div>
                     <a href="{% url 'home' %}" class="btn btn-primary">Go back</a> <br> <br>
-                    <button type="button" data-index="{{ product.id }}" class="btn btn-secondary"
-                        id="cart-update">Update Quantity</button>
+                    <button type="button" data-index="{{ product.id }}" class="btn btn-secondary" id="cart-update">Update Quantity</button>
                     <!-- data-index: since there be numerous update quantity buttons, assign product.id to each product-->
-                    <button type="button" data-index="{{ product.id }}" class="btn btn-danger" id="cart-delete">Remove
-                        from cart</button>
+                    <button type="button" data-index="{{ product.id }}" class="btn btn-danger" id="cart-delete">Remove from cart</button>
                 </div>
             </div>
         </div>
