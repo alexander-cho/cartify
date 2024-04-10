@@ -61,8 +61,9 @@
                 action: 'post'
             },
             success: function(json) {
-                console.log(json) // json response form add_to_cart view
-                document.getElementById('cart-quantity').textContent = json.quantity
+                console.log(json); // json response form add_to_cart view
+                document.getElementById('cart-quantity').textContent = json.quantity;
+                // location.reload(); // reload page
             },
             error: function(xhr, errmsg, err) {
 
