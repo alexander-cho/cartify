@@ -1,8 +1,47 @@
 from typing import Any
 from django import forms
-# from .models import Idea
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
+
+
+class UpdateProfileForm(UserChangeForm):
+    email = forms.EmailField(label='',
+                             widget=forms.TextInput(
+                                 attrs={
+                                     'placeholder': 'Email address',
+                                     'class': 'form-control'
+                                 }
+                             ))
+    first_name = forms.CharField(label='',
+                                 max_length=100,
+                                 widget=forms.TextInput(
+                                     attrs={
+                                         'placeholder': 'First name',
+                                         'class': 'form-control'
+                                    }
+                                ))
+    last_name = forms.CharField(label='',
+                                 max_length=100,
+                                 widget=forms.TextInput(
+                                     attrs={
+                                         'placeholder': 'Last name',
+                                         'class': 'form-control'
+                                    }
+                                ))
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super(UpdateProfileForm, self).__init__(*args, **kwargs)
+
+        # pass in bootstrap to override built in formatting
+        self.fields['username'].widget.attrs['class'] = 'form-control'
+        self.fields['username'].widget.attrs['placeholder'] = 'User Name'
+        self.fields['username'].label = ''
+        self.fields['username'].help_text = '<span class="form-text text-muted"><small>Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small></span>'
+
 
 
 class SignUpForm(UserCreationForm):
