@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 
 from .models import Product, Category
-from .forms import SignUpForm, UpdateProfileForm
+from .forms import SignUpForm, UpdateProfileForm, UpdatePasswordForm
 
 # Create your views here.
 
@@ -79,6 +79,32 @@ def update_profile(request):
         return redirect('login')
 
     return render(request, 'store/update_profile.html', {'form': form})
+
+
+# view for updating password
+def update_password(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+        # did they fill out the form
+        if request.method == 'POST':
+            form = UpdatePasswordForm(current_user, request.POST)
+            if form.is_valid():
+                form.save()
+                # django automatically logs user out upon updating
+                messages.success(request, ('Your password has been updated, please log in again'))
+                # login(request, current_user) # log them in after they save changes, but right below, redirect back to another page
+                return redirect('login')
+            else:
+                # consider/see if i can use jinja2 templating for errors
+                for error in list(form.errors.values()): # pass in django authentication errors that get thrown
+                    messages.error(request, error)
+                return redirect('update-password')
+        else:
+            form = UpdatePasswordForm(current_user)
+            return render(request, 'store/update_password.html', {'form': form})
+    else:
+        messages.success(request, ('You have to be logged in to access this page'))
+        return redirect('home')
 
 
 # view for individual product page
