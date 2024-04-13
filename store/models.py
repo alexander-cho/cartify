@@ -1,7 +1,47 @@
-from django.db import models
 import datetime
 
+from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+
 # Create your models here.
+
+
+# Profile model to extend built in User model
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    date_modified = models.DateTimeField(User, auto_now=True) # automatically tag current time when updated
+    phone_number = models.CharField(max_length=25, blank=True)
+    address_one = models.CharField(max_length=50, blank=True)
+    address_two = models.CharField(max_length=50, blank=True) # ie, apt/unit/suite number
+    city = models.CharField(max_length=50, blank=True)
+    state = models.CharField(max_length=50, blank=True)
+    zipcode = models.CharField(max_length=50, blank=True)
+    country = models.CharField(max_length=50, blank=True)
+
+    def __str__(self) -> str:
+        return self.user.username
+    
+
+'''
+Create a new profile associated with a user upon registration.
+
+Parameters:
+sender: The User class sends the signal
+instance: refers to the instance created of the data when register form is submitted
+created: indicates if a new instance of the sender class (User) was created
+
+Returns:
+None
+'''
+def create_new_profile(sender: any, instance: User, created: bool, **kwargs: any) -> None:
+    if created: # if a user has been created
+        user_profile = Profile(user=instance)
+        user_profile.save()
+
+# automate signal
+post_save.connect(create_new_profile, sender=User)
+
 
 # categories of products
 class Category(models.Model):
@@ -54,3 +94,4 @@ class Order(models.Model):
 
     def __str__(self) -> str:
         return self.product
+
