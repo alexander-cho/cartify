@@ -3,8 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 
-from .models import Product, Category
-from .forms import SignUpForm, UpdateProfileForm, UpdatePasswordForm
+from .models import Product, Category, Profile
+from .forms import SignUpForm, UpdateProfileForm, UpdatePasswordForm, UserInfoForm
 
 # Create your views here.
 
@@ -54,13 +54,29 @@ def register_user(request):
             # login user
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, ('You have successfully registered an account'))
-            return redirect('home')
+            messages.success(request, ('You have successfully registered an account, please fill out your billing information'))
+            return redirect('user-info')
         else:
             messages.success(request, ('There was a problem registering, try again'))
             return redirect('register')
     else:
         return render(request, 'store/register.html', {'form': form})
+    
+
+# profile view
+def user_info(request):
+    if request.user.is_authenticated:
+        current_user = Profile.objects.get(user__id=request.user.id) # get profile where its corresponding user id is the current request id
+        form = UserInfoForm(request.POST or None, instance=current_user) # when Profile dir is clicked, current information will already be in the form
+        if form.is_valid():
+            form.save()
+            messages.success(request, ('You have updated your profile information'))
+            return redirect('home')
+    else:
+        messages.success(request, ('You need to be logged in to access that page'))
+        return redirect('login')
+    
+    return render(request, 'store/user_info.html', {'form': form})
     
 
 # view for updating user profile
@@ -73,7 +89,6 @@ def update_profile(request):
             login(request, current_user)
             messages.success(request, ('You have updated your profile information'))
             return redirect('home')
-        
     else:
         messages.success(request, ('You need to be logged in to access that page'))
         return redirect('login')

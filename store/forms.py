@@ -1,7 +1,79 @@
 from typing import Any
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django.contrib.auth.models import User
+
+from .models import Profile
+
+
+class UserInfoForm(forms.ModelForm):
+    phone_number = forms.CharField(label='', 
+                                   widget=forms.TextInput(
+                                       attrs={
+                                           'placeholder': 'Phone number',
+                                           'class': 'form-control'
+                                       }
+                                   ),
+                                   required=False)
+    address_one = forms.CharField(label='', 
+                                   widget=forms.TextInput(
+                                       attrs={
+                                           'placeholder': 'Address 1',
+                                           'class': 'form-control'
+                                       }
+                                   ),
+                                   required=False)
+    address_two = forms.CharField(label='', 
+                                   widget=forms.TextInput(
+                                       attrs={
+                                           'placeholder': 'Address 2',
+                                           'class': 'form-control'
+                                       }
+                                   ),
+                                   required=False)
+    city = forms.CharField(label='', 
+                                   widget=forms.TextInput(
+                                       attrs={
+                                           'placeholder': 'City',
+                                           'class': 'form-control'
+                                       }
+                                   ),
+                                   required=False)
+    state = forms.CharField(label='', 
+                                   widget=forms.TextInput(
+                                       attrs={
+                                           'placeholder': 'State',
+                                           'class': 'form-control'
+                                       }
+                                   ),
+                                   required=False)
+    zipcode = forms.CharField(label='', 
+                                   widget=forms.TextInput(
+                                       attrs={
+                                           'placeholder': 'ZIP Code',
+                                           'class': 'form-control'
+                                       }
+                                   ),
+                                   required=False)
+    country = forms.CharField(label='', 
+                                   widget=forms.TextInput(
+                                       attrs={
+                                           'placeholder': 'Country',
+                                           'class': 'form-control'
+                                       }
+                                   ),
+                                   required=False)
+
+    class Meta:
+        model = Profile
+        fields = ['phone_number', 'address_one', 'address_two', 'city', 'state', 'zipcode', 'country']
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super(UserInfoForm, self).__init__(*args, **kwargs)
+
+    
+
 
 
 class UpdateProfileForm(UserChangeForm):
@@ -14,7 +86,8 @@ class UpdateProfileForm(UserChangeForm):
                                      'placeholder': 'Email address',
                                      'class': 'form-control'
                                  }
-                             ))
+                             ),
+                             required=False)
     first_name = forms.CharField(label='',
                                  max_length=100,
                                  widget=forms.TextInput(
@@ -22,7 +95,8 @@ class UpdateProfileForm(UserChangeForm):
                                          'placeholder': 'First name',
                                          'class': 'form-control'
                                     }
-                                ))
+                                ),
+                                required=False)
     last_name = forms.CharField(label='',
                                  max_length=100,
                                  widget=forms.TextInput(
@@ -30,7 +104,8 @@ class UpdateProfileForm(UserChangeForm):
                                          'placeholder': 'Last name',
                                          'class': 'form-control'
                                     }
-                                ))
+                                ),
+                                required=False)
 
     class Meta:
         model = User
