@@ -1,0 +1,35 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Search</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Look up a product or description:</p>
+        </div>
+    </div>
+</header>
+
+<br><br>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            Search:
+        </div>
+        <div class="card-body">
+            <form method="post" action="{% url 'search' %}">
+                {% csrf_token %}
+                <input type="text" class="form-control" placeholder="What are you looking for?" name="searched"> <br>
+                <button type="submit" class="btn btn-secondary">Search</button>
+            </form>
+        </div>
+    </div>
+    <br>
+    {% if searched %}
+        <h5>You searched for: <b><em>{{ search_content }}</em></b></h5>
+    {% endif %}
+    <br>
+</div>
+{% endblock %}

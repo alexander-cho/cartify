@@ -71,4 +71,3 @@ def delete_from_cart(request):
         return response
     
 
-

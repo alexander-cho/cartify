@@ -146,3 +146,13 @@ def category_summary(request):
     # grab all distinct categories
     categories = Category.objects.all()
     return render(request, 'store/category_summary.html', {'categories': categories})
+
+
+# product/description search functionality
+def search(request):
+    # determine if user filled out the form
+    if request.method == 'POST':
+        search_content = request.POST['searched'] # store/search.html; get the value passed into name="searched"
+        return render(request, 'store/search.html', {'search_content': search_content})
+    else:
+        return render(request, 'store/search.html', {})
