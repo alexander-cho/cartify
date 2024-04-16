@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 from .models import Product, Category, Profile
 from .forms import SignUpForm, UpdateProfileForm, UpdatePasswordForm, UserInfoForm
@@ -153,6 +154,12 @@ def search(request):
     # determine if user filled out the form
     if request.method == 'POST':
         search_content = request.POST['searched'] # store/search.html; get the value passed into name="searched"
-        return render(request, 'store/search.html', {'search_content': search_content})
+        # query products, either for name or description
+        products = Product.objects.filter(Q(name__icontains=search_content) | Q(description__icontains=search_content)) # icontains; not case-sensitive
+        if not products:
+            messages.success(request, (f'Could not find anything for {search_content}, try again'))
+            return render(request, 'store/search.html', {})
+        else:
+            return render(request, 'store/search.html', {'search_content': search_content, 'products': products})
     else:
         return render(request, 'store/search.html', {})
