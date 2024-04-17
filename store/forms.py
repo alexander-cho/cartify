@@ -16,54 +16,54 @@ class UserInfoForm(forms.ModelForm):
                                        }
                                    ),
                                    required=False)
-    address_one = forms.CharField(label='', 
-                                   widget=forms.TextInput(
-                                       attrs={
+    address_one = forms.CharField(label='',
+                                  widget=forms.TextInput(
+                                      attrs={
                                            'placeholder': 'Address 1',
                                            'class': 'form-control'
-                                       }
-                                   ),
-                                   required=False)
+                                      }
+                                  ),
+                                  required=False)
     address_two = forms.CharField(label='', 
-                                   widget=forms.TextInput(
-                                       attrs={
+                                  widget=forms.TextInput(
+                                      attrs={
                                            'placeholder': 'Address 2',
                                            'class': 'form-control'
-                                       }
-                                   ),
-                                   required=False)
-    city = forms.CharField(label='', 
-                                   widget=forms.TextInput(
-                                       attrs={
-                                           'placeholder': 'City',
-                                           'class': 'form-control'
-                                       }
-                                   ),
-                                   required=False)
-    state = forms.CharField(label='', 
-                                   widget=forms.TextInput(
-                                       attrs={
-                                           'placeholder': 'State',
-                                           'class': 'form-control'
-                                       }
-                                   ),
-                                   required=False)
-    zipcode = forms.CharField(label='', 
-                                   widget=forms.TextInput(
-                                       attrs={
-                                           'placeholder': 'ZIP Code',
-                                           'class': 'form-control'
-                                       }
-                                   ),
-                                   required=False)
-    country = forms.CharField(label='', 
-                                   widget=forms.TextInput(
-                                       attrs={
-                                           'placeholder': 'Country',
-                                           'class': 'form-control'
-                                       }
-                                   ),
-                                   required=False)
+                                      }
+                                  ),
+                                  required=False)
+    city = forms.CharField(label='',
+                           widget=forms.TextInput(
+                               attrs={
+                                   'placeholder': 'City',
+                                   'class': 'form-control'
+                               }
+                           ),
+                           required=False)
+    state = forms.CharField(label='',
+                            widget=forms.TextInput(
+                                attrs={
+                                    'placeholder': 'State',
+                                    'class': 'form-control'
+                                }
+                            ),
+                            required=False)
+    zipcode = forms.CharField(label='',
+                              widget=forms.TextInput(
+                                  attrs={
+                                      'placeholder': 'ZIP Code',
+                                      'class': 'form-control'
+                                  }
+                              ),
+                              required=False)
+    country = forms.CharField(label='',
+                              widget=forms.TextInput(
+                                  attrs={
+                                      'placeholder': 'Country',
+                                      'class': 'form-control'
+                                  }
+                              ),
+                              required=False)
 
     class Meta:
         model = Profile
@@ -71,9 +71,6 @@ class UserInfoForm(forms.ModelForm):
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super(UserInfoForm, self).__init__(*args, **kwargs)
-
-    
-
 
 
 class UpdateProfileForm(UserChangeForm):
@@ -94,15 +91,15 @@ class UpdateProfileForm(UserChangeForm):
                                      attrs={
                                          'placeholder': 'First name',
                                          'class': 'form-control'
-                                    }
-                                ),
-                                required=False)
+                                     }
+                                 ),
+                                 required=False)
     last_name = forms.CharField(label='',
-                                 max_length=100,
-                                 widget=forms.TextInput(
-                                     attrs={
-                                         'placeholder': 'Last name',
-                                         'class': 'form-control'
+                                max_length=100,
+                                widget=forms.TextInput(
+                                    attrs={
+                                        'placeholder': 'Last name',
+                                        'class': 'form-control'
                                     }
                                 ),
                                 required=False)
@@ -119,7 +116,6 @@ class UpdateProfileForm(UserChangeForm):
         self.fields['username'].widget.attrs['placeholder'] = 'User Name'
         self.fields['username'].label = ''
         self.fields['username'].help_text = '<span class="form-text text-muted"><small>Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small></span>'
-
 
 
 class UpdatePasswordForm(SetPasswordForm):
@@ -156,12 +152,12 @@ class SignUpForm(UserCreationForm):
                                      attrs={
                                          'placeholder': 'First name',
                                          'class': 'form-control'
-                                    }
-                                ))
+                                     }
+                                 ))
     last_name = forms.CharField(label='',
-                                 max_length=100,
-                                 widget=forms.TextInput(
-                                     attrs={
+                                max_length=100,
+                                widget=forms.TextInput(
+                                    attrs={
                                          'placeholder': 'Last name',
                                          'class': 'form-control'
                                     }

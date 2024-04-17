@@ -3,6 +3,7 @@
 {% load static %}
 
 
+
 {% include 'store/navbar.html' %}
 {% block content %}
 <!-- Header-->
@@ -18,7 +19,7 @@
 <div class="container">
     {% if cart_contents %}
     {% for product in cart_contents %}
-    <!-- from store/product.html - think of making a subtemplate in the future -->
+    <!-- from store/product.html - think of making a sub-template in the future -->
     <div class="container">
         <br>
         <div class="card mb-3">
@@ -105,7 +106,7 @@
     $(document).on('click', '#cart-update', function (e) {
         e.preventDefault();
         // grab product id
-        var productId = $(this).data('index') // call data-index defined in button html above to get 'this' product id
+        let productId = $(this).data('index') // call data-index defined in button html above to get 'this' product id
         $.ajax({
             type: 'POST', // POST method for ajax request
             url: "{% url 'update-cart' %}", // name as defined in urls.py, url to which the request is sent
@@ -130,7 +131,7 @@
     // check if button is pressed
     $(document).on('click', '#cart-delete', function (e) {
         e.preventDefault();
-        var productId = $(this).data('index')
+        let productId = $(this).data('index')
         $.ajax({
             type: 'POST', // POST method for ajax request
             url: "{% url 'delete-from-cart' %}", // name as defined in urls.py, url to which the request is sent

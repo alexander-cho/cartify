@@ -1,7 +1,7 @@
 from store.models import Product
 
 
-class Cart():
+class Cart:
     def __init__(self, request) -> None:
         # session object associated with current request
         self.session = request.session
@@ -13,22 +13,19 @@ class Cart():
         if 'session_key' not in request.session:
             cart = self.session['session_key'] = {}
 
-        # make sure cart is available accross entire application - (apps/pages)
+        # make sure cart is available across entire application - (apps/pages)
         self.cart = cart
-
 
     def get_cart(self):
         # get ids from cart
-        product_ids = self.cart.keys() # set up as dictionary as defined in product template jquery and add view {product_id: price}
+        product_ids = self.cart.keys()  # set up as dictionary as defined in product template jquery and add view {product_id: price}
         # use ids to look up products in DB model
         products = Product.objects.filter(id__in=product_ids)
         return products
-    
 
     def get_quantities(self):
         quantities = self.cart
         return quantities
-
 
     def add(self, product, quantity):
         product_id = str(product.id)
@@ -40,7 +37,6 @@ class Cart():
             self.cart[product_id] = int(product_quantity)
         
         self.session.modified = True
-
 
     def update(self, product, quantity):
         # shopping cart looks like: {'1': 3}, where product id is a string and quantity is an integer
@@ -58,7 +54,6 @@ class Cart():
         updated_cart = self.cart
         return updated_cart
 
-
     def delete(self, product):
         product_id = str(product)
 
@@ -70,7 +65,6 @@ class Cart():
 
         self.session.modified = True
 
-
     def calculate_total(self):
         # get product IDs and products that exist in the current cart
         product_ids = self.cart.keys()
@@ -78,7 +72,7 @@ class Cart():
 
         total = 0
         for k, v in self.cart.items():
-            k = int(k) # convert from string of id into integer in order to compare with integer pk id of DB
+            k = int(k)  # convert from string of id into integer in order to compare with integer pk id of DB
             for product in products:
                 if k == product.id:
                     # account for if product is on sale
@@ -90,8 +84,6 @@ class Cart():
                         total += each_item_total
 
         return total
-
-
 
     '''
     return the length of the cart

@@ -7,10 +7,11 @@ from store.models import Product
 
 # Create your views here.
 
+
 def cart_overview(request):
     cart = Cart(request)
     cart_contents = cart.get_cart()
-    quantities = cart.get_quantities() # dictionary- {product id: quantity}
+    quantities = cart.get_quantities()  # dictionary- {product id: quantity}
     cart_total = cart.calculate_total()
     return render(request, 'cart/overview.html', {'cart_contents': cart_contents, 'quantities': quantities, 'cart_total': cart_total})
 
@@ -20,7 +21,7 @@ def add_to_cart(request):
     cart = Cart(request)
 
     # test for a POST request
-    if request.POST.get('action') == 'post': # action from product page jquery script
+    if request.POST.get('action') == 'post':  # action from product page jquery script
         # get the item
         product_id = int(request.POST.get('product_id'))
 
@@ -38,8 +39,8 @@ def add_to_cart(request):
 
         # return response
         # response = JsonResponse({'Product name: ': product.name})
-        response = JsonResponse({'quantity': cart_quantity}) # passed into jquery success function store/product.html
-        messages.success(request, (f'You added {product} to your cart'))
+        response = JsonResponse({'quantity': cart_quantity})  # passed into jquery success function store/product.html
+        messages.success(request, f'You added {product} to your cart')
         return response
 
 
@@ -53,10 +54,9 @@ def update_cart(request):
         cart.update(product=product_id, quantity=product_quantity)
 
         response = JsonResponse({'newquantity': product_quantity})
-        messages.success(request, ('You have updated the quantity for this item'))
+        messages.success(request, 'You have updated the quantity for this item')
         return response
-    
-        
+
 
 def delete_from_cart(request):
     cart = Cart(request)
@@ -67,7 +67,5 @@ def delete_from_cart(request):
         cart.delete(product=product_id)
         
         response = JsonResponse({'you have removed': product_id})
-        messages.success(request, ('You deleted this item from your cart'))
+        messages.success(request, 'You deleted this item from your cart')
         return response
-    
-
