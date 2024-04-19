@@ -51,6 +51,28 @@ class Cart:
             # save converted cart to Profile model
             current_user.update(old_cart=converted_cart)
 
+    def add_from_db(self, product, quantity):
+        """ A separate method to add json dict cart items back to session cart upon user logging back in"""
+        product_id = str(product)
+        product_quantity = str(quantity)
+
+        if product_id in self.cart:
+            pass
+        else:
+            self.cart[product_id] = int(product_quantity)
+
+        self.session.modified = True
+
+        # deal with logged-in user
+        if self.request.user.is_authenticated:
+            # get the current user profile
+            current_user = Profile.objects.filter(user__id=self.request.user.id)
+            # convert cart to double-quoted product id's for json {'3':1} to {"3":1}
+            cart_to_string = str(self.cart)
+            converted_cart = cart_to_string.replace("\'", "\"")
+            # save converted cart to Profile model
+            current_user.update(old_cart=converted_cart)
+
     def update(self, product, quantity):
         # shopping cart looks like: {'1': 3}, where product id is a string and quantity is an integer
         product_id = str(product)
@@ -63,6 +85,16 @@ class Cart:
         cart_to_update[product_id] = product_quantity
 
         self.session.modified = True
+
+        # let item update from cart persist upon login/logout
+        if self.request.user.is_authenticated:
+            # get the current user profile
+            current_user = Profile.objects.filter(user__id=self.request.user.id)
+            # convert cart to double-quoted product id's for json {'3':1} to {"3":1}
+            cart_to_string = str(self.cart)
+            converted_cart = cart_to_string.replace("\'", "\"")
+            # save converted cart to Profile model
+            current_user.update(old_cart=converted_cart)
 
         updated_cart = self.cart
         return updated_cart
@@ -77,6 +109,17 @@ class Cart:
             pass
 
         self.session.modified = True
+
+        # whenever user deletes from cart, it must be deleted from the DB old_cart field as well
+        # let item removal from cart persist upon login/logout
+        if self.request.user.is_authenticated:
+            # get the current user profile
+            current_user = Profile.objects.filter(user__id=self.request.user.id)
+            # convert cart to double-quoted product id's for json {'3':1} to {"3":1}
+            cart_to_string = str(self.cart)
+            converted_cart = cart_to_string.replace("\'", "\"")
+            # save converted cart to Profile model
+            current_user.update(old_cart=converted_cart)
 
     def calculate_total(self):
         # get product IDs and products that exist in the current cart

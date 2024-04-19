@@ -33,7 +33,7 @@ def login_user(request):
         if user is not None:
             login(request, user)
 
-            # shopping cart persistence upon login
+            # SHOPPING CART PERSISTENCE UPON LOGIN
             current_user_profile = Profile.objects.get(user__id=request.user.id)
             # get saved cart from database field of 'old_cart'
             current_user_cart = current_user_profile.old_cart
@@ -44,7 +44,7 @@ def login_user(request):
                 cart = Cart(request)
                 # loop through cart and add each item to session
                 for k, v in cart_as_dict.items():
-                    cart.add(k, v)
+                    cart.add_from_db(product=k, quantity=v)
 
             messages.success(request, 'You have been logged in')
             return redirect('home')
