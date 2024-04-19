@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -6,6 +8,8 @@ from django.db.models import Q
 
 from .models import Product, Category, Profile
 from .forms import SignUpForm, UpdateProfileForm, UpdatePasswordForm, UserInfoForm
+
+from cart.cart import Cart
 
 # Create your views here.
 
@@ -28,6 +32,20 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+
+            # shopping cart persistence upon login
+            current_user_profile = Profile.objects.get(user__id=request.user.id)
+            # get saved cart from database field of 'old_cart'
+            current_user_cart = current_user_profile.old_cart
+            # convert database string to python dictionary
+            if current_user_cart is not None:
+                cart_as_dict = json.loads(current_user_cart)
+                # now add the cart to session
+                cart = Cart(request)
+                # loop through cart and add each item to session
+                for k, v in cart_as_dict.items():
+                    cart.add(k, v)
+
             messages.success(request, 'You have been logged in')
             return redirect('home')
         else:
