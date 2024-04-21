@@ -48,14 +48,6 @@ class UserInfoForm(forms.ModelForm):
                                 }
                             ),
                             required=False)
-    zipcode = forms.CharField(label='',
-                              widget=forms.TextInput(
-                                  attrs={
-                                      'placeholder': 'ZIP Code',
-                                      'class': 'form-control'
-                                  }
-                              ),
-                              required=False)
     country = forms.CharField(label='',
                               widget=forms.TextInput(
                                   attrs={
@@ -64,10 +56,18 @@ class UserInfoForm(forms.ModelForm):
                                   }
                               ),
                               required=False)
+    zipcode = forms.CharField(label='',
+                              widget=forms.TextInput(
+                                  attrs={
+                                      'placeholder': 'ZIP Code',
+                                      'class': 'form-control'
+                                  }
+                              ),
+                              required=False)
 
     class Meta:
         model = Profile
-        fields = ['phone_number', 'address_one', 'address_two', 'city', 'state', 'zipcode', 'country']
+        fields = ['phone_number', 'address_one', 'address_two', 'city', 'state', 'country', 'zipcode']
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super(UserInfoForm, self).__init__(*args, **kwargs)

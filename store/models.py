@@ -16,8 +16,8 @@ class Profile(models.Model):
     address_two = models.CharField(max_length=50, blank=True)  # ie, apt/unit/suite number
     city = models.CharField(max_length=50, blank=True)
     state = models.CharField(max_length=50, blank=True)
-    zipcode = models.CharField(max_length=50, blank=True)
     country = models.CharField(max_length=50, blank=True)
+    zipcode = models.CharField(max_length=50, blank=True)
 
     # instead of saving cart (dictionary) to database, convert it to a string
     old_cart = models.CharField(max_length=50, blank=True, null=True)
