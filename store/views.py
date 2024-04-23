@@ -6,8 +6,11 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.models import Q
 
+from payment.forms import ShippingForm
 from .models import Product, Category, Profile
 from .forms import SignUpForm, UpdateProfileForm, UpdatePasswordForm, UserInfoForm
+from payment.forms import ShippingForm
+from payment.models import ShippingAddress
 
 from cart.cart import Cart
 
@@ -86,17 +89,24 @@ def register_user(request):
 # profile view
 def user_info(request):
     if request.user.is_authenticated:
+        # get current user
         current_user = Profile.objects.get(user__id=request.user.id)  # get profile where its corresponding user id is the current request id
+        # get current user's shipping info
+        shipping_user = ShippingAddress.objects.get(user__id=request.user.id)
+        # get original user form
         form = UserInfoForm(request.POST or None, instance=current_user)  # when Profile dir is clicked, current information will already be in the form
-        if form.is_valid():
+        # get shipping form
+        shipping_form = ShippingForm(request.POST or None, instance=shipping_user)
+        if form.is_valid() or shipping_form.is_valid():
             form.save()
+            shipping_form.save()
             messages.success(request, 'You have updated your profile information')
             return redirect('home')
     else:
         messages.success(request, 'You need to be logged in to access that page')
         return redirect('login')
     
-    return render(request, 'store/user_info.html', {'form': form})
+    return render(request, 'store/user_info.html', {'form': form, 'shipping_form': shipping_form})
     
 
 # view for updating user profile
