@@ -1,4 +1,8 @@
-customer leaving reviews about products/orer after making a purchase
+- customer leaving reviews about products/order after making a purchase
+- blog functionality
+- stripe webhook/checkout
+- anymail/mailgun
+
 
 
 from django.contrib.sessions.models import Session
