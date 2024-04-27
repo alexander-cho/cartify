@@ -18,7 +18,11 @@ from cart.cart import Cart
 
 
 def home(request):
+    """
+    This is the homepage view where you can display all the products, or specific ones you'd like to feature.
+    """
     products = Product.objects.all()
+    # selected_product = Product.objects.get(pk=1)
     return render(request, 'store/home.html', {'products': products})
 
 
