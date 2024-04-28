@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 from .models import Category, Customer, Product, Order, Profile
 
-# Register your models here.
+# Register from models.py
 admin.site.register(Category)
 admin.site.register(Customer)
 admin.site.register(Product)

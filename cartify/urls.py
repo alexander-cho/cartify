@@ -24,4 +24,4 @@ urlpatterns = [
     path('', include('store.urls')),  # include urls in store app
     path('cart/', include('cart.urls')),
     path('payment/', include('payment.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # Add a URL pattern for serving media files during development, using the MEDIA_URL and MEDIA_ROOT settings from settings.py

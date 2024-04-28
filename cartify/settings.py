@@ -123,7 +123,10 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATICFILES_DIRS = ['static/']
 
+# define the base URL for serving media files
 MEDIA_URL = 'media/'
+
+# define the directory where uploaded media files will be stored on the filesystem
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type

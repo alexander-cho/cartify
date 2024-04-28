@@ -47,39 +47,41 @@ def create_new_profile(sender: any, instance: User, created: bool, **kwargs: any
 post_save.connect(create_new_profile, sender=User)
 
 
-# categories of products
+# customer info
+class Customer(models.Model):
+    """Customer model."""
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    phone_number = models.CharField(max_length=20)
+    email = models.EmailField(max_length=100)
+    password = models.CharField(max_length=50)  # change to PasswordField
+
+    def __str__(self) -> str:
+        return f'{self.first_name} {self.last_name}'
+
+
 class Category(models.Model):
+    """Item category model. Each product you list on your store will be in a category"""
     class Meta:
-        verbose_name_plural = 'categories'
+        verbose_name_plural = 'categories'  # pluralize with proper convention for admin backend display
 
     name = models.CharField(max_length=50)
 
     def __str__(self) -> str:
         return self.name
 
-
-# customer info
-class Customer(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    phone_number = models.CharField(max_length=20)
-    email = models.EmailField(max_length=100)
-    password = models.CharField(max_length=50)
-
-    def __str__(self) -> str:
-        return f'{self.first_name} {self.last_name}'
-
         
 # product info
 class Product(models.Model):
+    """Product model."""
     name = models.CharField(max_length=100)
     price = models.DecimalField(default=0, decimal_places=2, max_digits=6)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)  # reference Category model, if not specifically defined for item, it will default to first category you create
     description = models.CharField(max_length=250, default='', blank=True, null=True)
-    image = models.ImageField(upload_to='uploads/product/')
+    image = models.ImageField(upload_to='uploads/product/')  # your uploaded product images will show up in this directory inside the media directory
 
     # On sale products
-    is_on_sale = models.BooleanField(default=False)  # by default product is not on sale
+    is_on_sale = models.BooleanField(default=False)  # by default product your listed product will not be on sale
     sale_price = models.DecimalField(default=0, decimal_places=2, max_digits=6)
 
     def __str__(self) -> str:
@@ -88,13 +90,13 @@ class Product(models.Model):
 
 # order and shipping info
 class Order(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)  # reference Product model to get product ordered
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)  # reference Customer model
+    quantity = models.IntegerField(default=1)  # default quantity is 1 for there to be an order
     shipping_address = models.CharField(max_length=100, default='', blank=True)
     phone_number = models.CharField(max_length=20, default='', blank=True)
     date_ordered = models.DateField(default=datetime.datetime.today)
-    shipping_status = models.BooleanField(default=False)  # false because when customer first order it's not been shipped yet
+    shipping_status = models.BooleanField(default=False)  # set to false, when customer places order it's not been shipped yet
 
     def __str__(self) -> str:
         return self.product
