@@ -6,7 +6,6 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.models import Q
 
-from payment.forms import ShippingForm
 from .models import Product, Category, Profile
 from .forms import SignUpForm, UpdateProfileForm, UpdatePasswordForm, UserInfoForm
 from payment.forms import ShippingForm

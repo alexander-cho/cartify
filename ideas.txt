@@ -6,5 +6,5 @@
 
 
 from django.contrib.sessions.models import Session
-key = Session.objects.get(pk='sessionid')  [sessionid from Inspect -> Application -> Cookies (storage)]
+key = Session.objects.get(pk='sessionid')    # [sessionid from Inspect -> Application -> Cookies (storage)]
 key.get_decoded()
