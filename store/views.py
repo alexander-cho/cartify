@@ -27,6 +27,9 @@ def home(request):
 
 # information about app
 def about(request):
+    """
+    This is the about page view where you can describe your service.
+    """
     return render(request, 'store/about.html', {})
 
 

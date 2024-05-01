@@ -80,7 +80,7 @@ class Product(models.Model):
     description = models.CharField(max_length=250, default='', blank=True, null=True)
     image = models.ImageField(upload_to='uploads/product/')  # your uploaded product images will show up in this directory inside the media directory
 
-    # On sale products
+    # PRODUCTS ON SALE
     is_on_sale = models.BooleanField(default=False)  # by default product your listed product will not be on sale
     sale_price = models.DecimalField(default=0, decimal_places=2, max_digits=6)
 
