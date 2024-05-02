@@ -13,8 +13,6 @@ from payment.models import ShippingAddress
 
 from cart.cart import Cart
 
-# Create your views here.
-
 
 def home(request):
     """
@@ -33,12 +31,17 @@ def about(request):
     return render(request, 'store/about.html', {})
 
 
-# login
 def login_user(request):
-    if request.method == 'POST':
-        username = request.POST['username']  # name="username" in template
+    """
+    This is the login page view, it renders the login form and redirects to the home page upon successful login.
+    Assumes: login.html; authenticate/login functions from django's authentication framework.
+    Cart persistence:
+    """
+    if request.method == 'POST':  # did the user 'post' the login form
+        # get the username and password from the submitted form data
+        username = request.POST['username']  # name="username" in login.html template
         password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, username=username, password=password)  # pass in that data to authenticate user
         if user is not None:
             login(request, user)
 
@@ -64,16 +67,22 @@ def login_user(request):
         return render(request, 'store/login.html', {})
 
 
-# logout
 def logout_user(request):
+    """
+    This will log the user out and redirects to the home page upon successful logout.
+    Assumes: logout function from django's authentication framework.
+    """
     logout(request)
     messages.success(request, 'You have been logged out')
     return redirect('home')
 
 
-# register
 def register_user(request):
-    form = SignUpForm()
+    """
+    This view will render the user registration page and redirects to the user information page upon successful registration.
+    The registration form (SignUpForm) was created using django's built in UserCreationForm
+    """
+    form = SignUpForm()  # define sign up form
     if request.method == 'POST':
         form = SignUpForm(request.POST)  # take all the data that user typed into the form and put it into SignUpForm for use
         if form.is_valid():

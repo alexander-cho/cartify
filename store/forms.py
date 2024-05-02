@@ -153,7 +153,8 @@ class SignUpForm(UserCreationForm):
                                          'placeholder': 'First name',
                                          'class': 'form-control'
                                      }
-                                 ))
+                                 ),
+                                 help_text='First name.')
     last_name = forms.CharField(label='',
                                 max_length=100,
                                 widget=forms.TextInput(
@@ -165,14 +166,15 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'email', 'username', 'password1', 'password2']
 
+    # initialize the form, customize field attributes
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super(SignUpForm, self).__init__(*args, **kwargs)
 
         # pass in bootstrap to override built in formatting
         self.fields['username'].widget.attrs['class'] = 'form-control'
-        self.fields['username'].widget.attrs['placeholder'] = 'User Name'
+        self.fields['username'].widget.attrs['placeholder'] = 'Username'
         self.fields['username'].label = ''
         self.fields['username'].help_text = '<span class="form-text text-muted"><small>Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small></span>'
 
