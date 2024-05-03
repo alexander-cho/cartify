@@ -9,7 +9,7 @@ from django.db.models import Q
 from .models import Product, Category, Profile
 from .forms import SignUpForm, UpdateProfileForm, UpdatePasswordForm, UserInfoForm
 from payment.forms import ShippingForm
-from payment.models import ShippingAddress
+from payment.models import ShippingAddress, Order, OrderItem
 
 from cart.cart import Cart
 

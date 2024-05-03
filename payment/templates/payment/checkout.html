@@ -1,0 +1,43 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+        <!-- Header -->
+    <header class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Checkout</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Here is your order summary</p>
+            </div>
+        </div>
+    </header>
+    
+    <br><br>
+
+    <div class="container">
+        <div class="row">
+            <center>
+                CARD
+                <h3>Order Summary</h3>
+                {% for item in order_items %}
+                    {{ item.products.name }} <br>
+                    {{ item.quantity }} <br>
+                    {{ item.price }} <br>
+                {% endfor %}
+                Total: $xxx.xx <br>
+                <button>Update</button> <br>
+                <strong>Review your billing Information</strong>
+                <div class="col-md-8">
+                    <form method="post" action="{% url 'user-info' %}">
+                        {% csrf_token %}
+                        {{ user_form.as_p }}
+                        <br><br>
+                        <strong>Shipping Information</strong>
+                        {{ shipping_form.as_p }}
+                        <button type="submit" class="btn btn-secondary">Save Changes</button>
+                    </form>
+                    <br>
+                </div>
+            </center>
+        </div>
+    </div>
+{% endblock %}

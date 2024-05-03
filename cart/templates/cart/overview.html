@@ -1,10 +1,5 @@
 {% extends 'store/base.html' %}
 
-{% load static %}
-
-
-
-{% include 'store/navbar.html' %}
 {% block content %}
 <!-- Header -->
 <header class="bg-dark py-5">
@@ -96,6 +91,7 @@
         <h4>Your cart is empty.</h4>
     </div>
     {% endif %}
+{#    <button type="button"><a href="{% url 'payment' 'checkout'%}" class="btn btn-primary">Go back</a></button>#}
 
 </div>
 <br><br><br><br><br><br><br><br><br><br><br><br>
