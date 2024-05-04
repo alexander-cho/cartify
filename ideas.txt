@@ -2,6 +2,8 @@
 - blog functionality
 - stripe webhook/checkout
 - anymail/mailgun
+- SEO tags
+
 
 
 
