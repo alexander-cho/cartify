@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from store.models import Product
+from django.db.models.signals import post_save
 
 # Create your models here.
 
@@ -24,6 +25,26 @@ class ShippingAddress(models.Model):
 
     def __str__(self):
         return f'Shipping Address: {str(self.id)}'
+
+def create_shipping_address(sender: any, instance: User, created: bool, **kwargs: any) -> None:
+    """
+    Create an empty shipping address associated with a user upon registration.
+
+    Parameters:
+    sender: The User class sends the signal
+    instance: refers to the instance created of the data when register form is submitted
+    created: indicates if a new instance of the sender class (User) was created
+
+    Returns:
+    None
+    """
+    if created:  # if a user has been created
+        user_shipping_address = ShippingAddress(user=instance)
+        user_shipping_address.save()
+
+
+# automate signal
+post_save.connect(create_shipping_address, sender=User)
 
 
 # overall order
