@@ -26,6 +26,7 @@ class ShippingAddress(models.Model):
     def __str__(self):
         return f'Shipping Address: {str(self.id)}'
 
+
 def create_shipping_address(sender: any, instance: User, created: bool, **kwargs: any) -> None:
     """
     Create an empty shipping address associated with a user upon registration.

@@ -169,25 +169,32 @@ def update_password(request):
 
 # view for individual product page
 def product(request, pk):
-    product = Product.objects.get(id=pk)  # query specific product
+    product = Product.objects.get(id=pk)  # query specific product with the primary key from product model
     return render(request, 'store/product.html', {'product': product})
 
 
 # view for particular category
 def category(request, c):
-    c = c.replace('-', ' ')  # replace hyphens in category name spaces in url
-    # look up category
-    # try:
-    category = Category.objects.get(name=c)
-    products = Product.objects.filter(category=category)
-    return render(request, 'store/category.html', {'products': products, 'category': category})
-    # except:
-    #     messages.success(request, ('That category does not exist'))
-    #     return redirect('home')
+    # handle category names that contain spaces. In the url specifically, spaces are typically replaced with hyphens or
+    # underscores to conform to URL encoding standards. However, for the view function, we convert these hyphens back
+    # to spaces so that we can accurately look up the category in the database.
+    c = c.replace('-', ' ')
+    # then we are able to look up the category
+    try:
+        category = Category.objects.get(name=c)
+        products = Product.objects.filter(category=category)
+        return render(request, 'store/category.html', {'products': products, 'category': category})
+    except:
+        messages.success(request, ('That category does not exist'))
+        return redirect('home')
 
 
 # view all categories
 def category_summary(request):
+    """
+    This view will display a page with all the store's categories.
+    Remember to manually add each new category name to navbar dropdown menu with the appropriate urls.
+    """
     # grab all distinct categories
     categories = Category.objects.all()
     return render(request, 'store/category_summary.html', {'categories': categories})
