@@ -2,6 +2,9 @@ from store.models import Product, Profile
 
 
 class Cart:
+    """
+    Cart class, to be accessed throughout the application using user sessions.
+    """
     def __init__(self, request) -> None:
         # session object associated with current request
         self.session = request.session
@@ -14,10 +17,10 @@ class Cart:
 
         # If the user is new, create a session key since it doesn't exist yet
         if 'session_key' not in request.session:
-            cart = self.session['session_key'] = {}
+            cart = self.session['session_key'] = {}  # create an empty cart and assign it to the session
 
         # make sure cart is available across entire application - (apps/pages)
-        self.cart = cart
+        self.cart = cart  # Assign the retrieved or newly created cart to self.cart
 
     def get_cart(self):
         # get ids from cart

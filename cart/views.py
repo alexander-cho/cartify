@@ -5,9 +5,8 @@ from django.contrib import messages
 from .cart import Cart
 from store.models import Product
 
-# Create your views here.
 
-
+# cart summary view
 def cart_overview(request):
     cart = Cart(request)
     cart_contents = cart.get_cart()
