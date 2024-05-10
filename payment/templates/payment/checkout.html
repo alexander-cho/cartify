@@ -44,13 +44,16 @@
         <div class="card">
             <h5 class="card-header">Shipping Information</h5>
             <div class="card-body">
-                {% csrf_token %}
-                {{ shipping_form.as_p }}
+                <form method="post" action="{% url 'billing-info' %}">
+                    {% csrf_token %}
+                    {{ shipping_form.as_p }}
+                    <button type="submit" class="btn btn-secondary">Continue to Billing</button>
+                </form>
             </div>
         </div>
         <br>
-        <a href="#" class="btn btn-secondary">Continue to Billing</a>
     </center>
     </div>
 </div>
+    <br>
 {% endblock %}
