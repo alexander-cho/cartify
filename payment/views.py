@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from .models import ShippingAddress
-from .forms import ShippingForm
+from .forms import ShippingForm, PaymentForm
 
 from cart.cart import Cart
 
@@ -37,14 +37,14 @@ def billing_info(request):
 
         # check to see if user is logged in
         if request.user.is_authenticated:
+            billing_form = PaymentForm()
             # shipping_info context is the previous post request that user submitted during checkout
-            return render(request, 'payment/billing_info.html',{'cart_contents': cart_contents, 'quantities': quantities, 'cart_total': cart_total, 'shipping_info': request.POST})
+            return render(request, 'payment/billing_info.html',{'cart_contents': cart_contents, 'quantities': quantities, 'cart_total': cart_total, 'shipping_info': request.POST, 'billing_form': billing_form})
         else:
-            pass
+            billing_form = PaymentForm()
+            return render(request, 'payment/billing_info.html',{'cart_contents': cart_contents, 'quantities': quantities, 'cart_total': cart_total, 'shipping_info': request.POST, 'billing_form': billing_form})
 
-        shipping_form = request.POST
-
-        return render(request, 'payment/billing_info.html',{'cart_contents': cart_contents, 'quantities': quantities, 'cart_total': cart_total, 'shipping_form': shipping_form})
+        # return render(request, 'payment/billing_info.html',{'cart_contents': cart_contents, 'quantities': quantities, 'cart_total': cart_total, 'shipping_form': shipping_form})
     else:
         messages.success(request, 'Access denied')
         return redirect('home')
