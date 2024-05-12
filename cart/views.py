@@ -19,9 +19,9 @@ def add_to_cart(request):
     # retrieve the cart instance
     cart = Cart(request)
 
-    # test for a POST request
-    if request.POST.get('action') == 'post':  # action from product page jquery script
-        # get the item
+    # test for a POST request (clicking of the add to cart button)
+    if request.POST.get('action') == 'post':  # action from product page javascript
+        # get the item (product id)
         product_id = int(request.POST.get('product_id'))
 
         # get the quantity
@@ -33,13 +33,14 @@ def add_to_cart(request):
         # save to session
         cart.add(product=product, quantity=product_quantity)
 
-        # get cart quantity
+        # get the updated cart quantity
         cart_quantity = cart.__len__()
 
         # return response
         # response = JsonResponse({'Product name: ': product.name})
-        response = JsonResponse({'quantity': cart_quantity})  # passed into jquery success function store/product.html
+        response = JsonResponse({'quantity': cart_quantity})  # passed into javascript success function store/product.html
         messages.success(request, f'You added {product} to your cart')
+
         return response
 
 
@@ -54,6 +55,7 @@ def update_cart(request):
 
         response = JsonResponse({'newquantity': product_quantity})
         messages.success(request, 'You have updated the quantity for this item')
+
         return response
 
 
@@ -67,4 +69,5 @@ def delete_from_cart(request):
         
         response = JsonResponse({'you have removed': product_id})
         messages.success(request, 'You deleted this item from your cart')
+
         return response

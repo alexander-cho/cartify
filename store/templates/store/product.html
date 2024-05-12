@@ -38,7 +38,8 @@
                     </div>
                     </p>
                 </div>
-                <a href="{% url 'home' %}" class="btn btn-primary">Go back</a> <br> <br>
+                <a href="{% url 'home' %}" class="btn btn-primary">Go back</a> <br><br>
+                <!-- value : store the product id of the item being added to cart, id: pass to javascript below-->
                 <button value="{{ product.id }}" id="cart-add" class="btn btn-secondary">Add to Cart</button>
             </div>
         </div>
@@ -49,24 +50,24 @@
 <!-- https://stackoverflow.com/questions/65641419/ajax-post-request-with-django-and-python -->
 <script>
     // check if button is pressed
-    $(document).on('click', '#cart-add', function(e) {
+    $(document).on('click', '#cart-add', function(e) {  // id="cart-add"
         e.preventDefault();
         $.ajax({
-            type: 'POST', // POST method for ajax request
-            url: "{% url 'add-to-cart' %}", // name as defined in urls.py, url to which the request is sent
+            type: 'POST',  // POST method for ajax request
+            url: "{% url 'add-to-cart' %}",  // URL to which the request is sent, defined in cart/urls.py
             data: {
-                product_id: $('#cart-add').val(), // from id in button above, pass data of value tag (product.id)
-                product_quantity: $('#quantity-dropdown option:selected').text(), // get data from quantity dropdown from above
+                product_id: $('#cart-add').val(),  // from id in button above, pass data of value tag (product.id)
+                product_quantity: $('#quantity-dropdown option:selected').text(),  // get data of text content from quantity dropdown from above
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: 'post'
             },
             success: function(json) {
-                console.log(json); // json response form add_to_cart view
-                document.getElementById('cart-quantity').textContent = json.quantity;
-                // location.reload(); // reload page
+                console.log(json);  // json response form add_to_cart view
+                document.getElementById('cart-quantity').textContent = json.quantity;  // JSON response from backend view function
+                // location.reload();  // optionally reload the page after successful addition to the cart
             },
             error: function(xhr, errmsg, err) {
-
+                console.error("An error occurred: " + errmsg)
             }
         });
     })

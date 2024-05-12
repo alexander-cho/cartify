@@ -34,13 +34,17 @@ class Cart:
         return quantities
 
     def add(self, product, quantity):
+        """
+        Add a product to the cart.
+        """
         product_id = str(product.id)
         product_quantity = str(quantity)
 
+        # check if the product is already in the cart
         if product_id in self.cart:
             pass
         else:
-            self.cart[product_id] = int(product_quantity)
+            self.cart[product_id] = int(product_quantity)  # add with specified quantity
         
         self.session.modified = True
 
