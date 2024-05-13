@@ -13,3 +13,4 @@ python manage.py shell
 
 
 git rm --cached -r directory_to_remove
+git rm --cached filename

@@ -40,8 +40,8 @@
                 <a href="{% url 'cart-overview' %}" class="btn btn-outline-dark">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
-                    <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart-quantity">{{ cart|length }}</span>
                     <!-- when calling length of the cart, since we defined a dunder method __len__ in the Cart class, django knows to call this -->
+                    <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart-quantity">{{ cart|length }}</span>
                 </a>
             </form>
         </div>

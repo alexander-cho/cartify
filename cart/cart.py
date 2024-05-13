@@ -148,9 +148,10 @@ class Cart:
 
         return total
 
-    '''
-    return the length of the cart
-    '''
     def __len__(self):
+        """
+            return the length of the cart, the number of distinct products in the cart
+            - use for updating number in navbar cart button
+        """
         return len(self.cart)
     
