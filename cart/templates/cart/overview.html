@@ -14,7 +14,6 @@
 <div class="container">
     {% if cart_contents %}
     {% for product in cart_contents %}
-    <!-- from store/product.html - think of making a sub-template in the future -->
     <div class="container">
         <br>
         <div class="card mb-3">
@@ -33,7 +32,7 @@
                         <p>
                             {% if product.is_on_sale %}
                             <!-- Product price-->
-                            <strike>${{ product.price }}</strike>
+                            <del>${{ product.price }}</del>
                             {{ product.sale_price }}
                             <!-- Dropdown bar to select quantity -->
                             <div class="row justify-content-center">
@@ -85,10 +84,10 @@
         </div>
     </div>
     {% endfor %}
-    <div align="right">
+    <div style="text-align: right">
         <h3>CART TOTAL: ${{ cart_total }}</h3>
         <a href="{% url 'checkout' %}" class="btn btn-success">Checkout</a>
-        </div>
+    </div>
     {% else %}
     <div class="container">
         <h4>Your cart is empty.</h4>

@@ -22,10 +22,13 @@ class Cart:
         # make sure cart is available across entire application - (apps/pages)
         self.cart = cart  # Assign the retrieved or newly created cart to self.cart
 
-    def get_cart(self):
+    def get_cart_contents(self):
+        """
+        Get all cart contents to display on cart overview/summary page
+        """
         # get ids from cart
-        product_ids = self.cart.keys()  # set up as dictionary as defined in product template jquery and add view {product_id: price}
-        # use ids to look up products in DB model
+        product_ids = self.cart.keys()  # cart is set up as a dictionary as defined in product template javascript and add view {product_id: quantity}
+        # use these ids to look up products in DB model
         products = Product.objects.filter(id__in=product_ids)
         return products
 
@@ -154,4 +157,3 @@ class Cart:
             - use for updating number in navbar cart button
         """
         return len(self.cart)
-    

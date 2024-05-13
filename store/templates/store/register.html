@@ -15,7 +15,7 @@
 
     <div class="container">
         <div class="row">
-            <center>
+            <div style="text-align: center">
                 <div class="col-md-8">
                     <form method="post" action="{% url 'register' %}">
                         {% csrf_token %}
@@ -24,7 +24,7 @@
                         <button type="submit" class="btn btn-secondary">Register</button>
                     </form>
                 </div>
-            </center>
+            </div>
         </div>
     </div>
 {% endblock %}
