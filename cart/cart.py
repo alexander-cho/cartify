@@ -33,6 +33,11 @@ class Cart:
         return products
 
     def get_quantities(self):
+        """
+        this method is used to get the quantity of each product in the current cart. we pass an instance of this method
+        in the cart_overview view in the context dictionary, then in the cart overview page cart/overview.html, we loop
+        through the passed cart to populate each dropdown menu with the current quantity of each product in the cart.
+        """
         quantities = self.cart
         return quantities
 

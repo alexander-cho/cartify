@@ -35,15 +35,15 @@
                             <del>${{ product.price }}</del>
                             {{ product.sale_price }}
                             <!-- Dropdown bar to select quantity -->
-                            <div class="row justify-content-center">
+                            <div class="col-md-2">Quantity:</div>
+                            <div class="col-md-2">
                                 <!-- id="select{{ product.id }} gives each dropdown bar for each product an id to know which one we are updating" -->
                                 <select class="form-select" aria-label="Default select example" id="select{{ product.id }}">
                                     <!-- display current item quantity in dropdown -->
                                     {% for k, v in quantities.items %}
-                                    {% if k == product.id|slugify %}
-                                    <!-- product.id originally an int, convert to string to compare with key -->
-                                    <option selected>{{ v }}</option>
-                                    {% endif %}
+                                        {% if k == product.id|slugify %}  <!-- product.id originally an int, convert to string to compare with key -->
+                                        <option selected>{{ v }}</option>
+                                        {% endif %}
                                     {% endfor %}
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -55,15 +55,16 @@
                             {% else %}
                             ${{ product.price }} <br>
                             <!-- Dropdown bar to select quantity -->
-                            <div class="row justify-content-center">
+                            <div class="col-md-2">Quantity:</div>
+                            <div class="col-md-2">
                                 <!-- id="select{{ product.id }} gives each dropdown bar for each product an id to know which one we are updating" -->
                                 <select class="form-select" aria-label="Default select example" id="select{{ product.id }}">
                                     <!-- display current item quantity in dropdown -->
                                     {% for k, v in quantities.items %}
-                                    {% if k == product.id|slugify %}
-                                    <!-- product.id originally an int, convert to string to compare with key -->
-                                    <option selected>{{ v }}</option>
-                                    {% endif %}
+                                        {% if k == product.id|slugify %}
+                                        <!-- product.id originally an int, convert to string to compare with key -->
+                                        <option selected>{{ v }}</option>
+                                        {% endif %}
                                     {% endfor %}
                                     <option value="1">1</option>
                                     <option value="2">2</option>
