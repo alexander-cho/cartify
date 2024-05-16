@@ -37,8 +37,7 @@
                             <!-- Dropdown bar to select quantity -->
                             <div class="col-md-2">Quantity:</div>
                             <div class="col-md-2">
-                                <!-- id="select{{ product.id }} gives each dropdown bar for each product an id to know which one we are updating" -->
-                                <select class="form-select" aria-label="Default select example" id="select{{ product.id }}">
+                                <select class="form-select" aria-label="Default select example" id="select{{ product.id }}">  <!-- the id gives each dropdown bar for each product in the cart an id to keep track of which one we are trying to update" -->
                                     <!-- display current item quantity in dropdown -->
                                     {% for k, v in quantities.items %}
                                         {% if k == product.id|slugify %}  <!-- product.id originally an int, convert to string to compare with key -->
@@ -57,8 +56,7 @@
                             <!-- Dropdown bar to select quantity -->
                             <div class="col-md-2">Quantity:</div>
                             <div class="col-md-2">
-                                <!-- id="select{{ product.id }} gives each dropdown bar for each product an id to know which one we are updating" -->
-                                <select class="form-select" aria-label="Default select example" id="select{{ product.id }}">
+                                <select class="form-select" aria-label="Default select example" id="select{{ product.id }}">  <!-- the id gives each dropdown bar for each product in the cart an id to keep track of which one we are trying to update" -->
                                     <!-- display current item quantity in dropdown -->
                                     {% for k, v in quantities.items %}
                                         {% if k == product.id|slugify %}
@@ -78,7 +76,7 @@
                     </div>
                     <a href="{% url 'home' %}" class="btn btn-primary">Go back</a> <br> <br>
                     <button type="button" data-index="{{ product.id }}" class="btn btn-secondary" id="cart-update">Update Quantity</button>
-                    <!-- data-index: since there be numerous update quantity buttons, assign product.id to each product-->
+                    <!-- data-index: since there be numerous update quantity buttons, assign unique data-index number of product.id to each product -->
                     <button type="button" data-index="{{ product.id }}" class="btn btn-danger" id="cart-delete">Remove from cart</button>
                 </div>
             </div>
@@ -96,27 +94,27 @@
     {% endif %}
 
 </div>
-<br><br><br><br><br><br><br><br><br><br><br><br>
 
+    
 <script>
     // UPDATE CART
     // check if button is pressed
     $(document).on('click', '#cart-update', function (e) {
         e.preventDefault();
         // grab product id
-        let productId = $(this).data('index') // call data-index defined in button html above to get 'this' product id
+        let productId = $(this).data('index')  // call data-index defined in button html above to get 'this' product id
         $.ajax({
             type: 'POST', // POST method for ajax request
-            url: "{% url 'update-cart' %}", // name as defined in urls.py, url to which the request is sent
+            url: "{% url 'update-cart' %}",  // URL to which the request is sent, defined in cart/urls.py
             data: {
-                product_id: productId, // pass from this product id defined above
-                product_quantity: $('#select' + productId + ' option:selected').text(), // id="select{{ product.id }}" line 48
+                product_id: productId,  // pass from this product id defined above
+                product_quantity: $('#select' + productId + ' option:selected').text(),  // id="select{{ product.id }}"
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: 'post'
             },
             success: function (json) {
                 console.log(json);
-                // location.reload(); // reload page
+                // location.reload();  // reload page
             },
             error: function (xhr, errmsg, err) {
 

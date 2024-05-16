@@ -53,7 +53,7 @@ def update_cart(request):
 
         cart.update(product=product_id, quantity=product_quantity)
 
-        response = JsonResponse({'newquantity': product_quantity})
+        response = JsonResponse({'new-quantity': [product_id, product_quantity]})
         messages.success(request, 'You have updated the quantity for this item')
 
         return response

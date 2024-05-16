@@ -96,7 +96,7 @@ class Cart:
         # get cart in order to update the session
         cart_to_update = self.cart
 
-        # update cart (dictionary)
+        # update cart (dictionary) with new selected product quantity
         cart_to_update[product_id] = product_quantity
 
         self.session.modified = True
