@@ -1,8 +1,8 @@
-- customer leaving reviews about products/order after making a purchase
-- blog functionality
+- review functionality
 - stripe webhook/checkout
 - anymail/mailgun
 - SEO tags
+
 
 
 

@@ -117,7 +117,7 @@
                 // location.reload();  // reload page
             },
             error: function (xhr, errmsg, err) {
-
+                console.error("An error occurred: " + errmsg)
             }
         });
     })
@@ -129,19 +129,19 @@
         e.preventDefault();
         let productId = $(this).data('index')
         $.ajax({
-            type: 'POST', // POST method for ajax request
-            url: "{% url 'delete-from-cart' %}", // name as defined in urls.py, url to which the request is sent
+            type: 'POST',  // POST method for ajax request
+            url: "{% url 'delete-from-cart' %}",  // URL to which the request is sent, defined in cart/urls.py
             data: {
-                product_id: productId, // pass from this product id defined above
+                product_id: productId,  // pass from this product id defined above
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: 'post'
             },
             success: function (json) {
                 console.log(json);
-                // location.reload(); // reload page
+                // location.reload();  // reload page
             },
             error: function (xhr, errmsg, err) {
-
+                console.error("An error occurred: " + errmsg)
             }
         });
     })
