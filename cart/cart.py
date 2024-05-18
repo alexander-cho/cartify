@@ -6,6 +6,9 @@ class Cart:
     Cart class, to be accessed throughout the application using user sessions.
     """
     def __init__(self, request) -> None:
+        """
+        The cart is structured as: {'4': 3}, where the key is the product id and the value is the quantity.
+        """
         # session object associated with current request
         self.session = request.session
 
@@ -66,8 +69,13 @@ class Cart:
             # save converted cart to Profile model
             current_user.update(old_cart=converted_cart)
 
+        updated_cart = self.cart
+        return updated_cart
+
     def add_from_db(self, product, quantity):
-        """ A separate method to add json dict cart items back to session cart upon user logging back in"""
+        """
+        A separate method to add json dict cart items back to session cart upon user logging back in
+        """
         product_id = str(product)
         product_quantity = str(quantity)
 
@@ -87,6 +95,9 @@ class Cart:
             converted_cart = cart_to_string.replace("\'", "\"")
             # save converted cart to Profile model
             current_user.update(old_cart=converted_cart)
+
+        updated_cart = self.cart
+        return updated_cart
 
     def update(self, product, quantity):
         # shopping cart looks like: {'1': 3}, where product id is a string and quantity is an integer
@@ -115,9 +126,12 @@ class Cart:
         return updated_cart
 
     def delete(self, product):
+        """
+        delete a product from the cart
+        """
         product_id = str(product)
 
-        # delete from cart
+        # delete if it exists in the cart
         if product_id in self.cart:
             del self.cart[product_id]
         else:
@@ -136,14 +150,22 @@ class Cart:
             # save converted cart to Profile model
             current_user.update(old_cart=converted_cart)
 
+        updated_cart = self.cart
+        return updated_cart
+
     def calculate_total(self):
-        # get product IDs and products that exist in the current cart
+        """
+        calculate the cart total and render at the bottom of cart/overview.html page
+        """
+        # get product IDs that exist in the current cart
         product_ids = self.cart.keys()
+        # look up those keys (IDs) in the Product DB model
         products = Product.objects.filter(id__in=product_ids)
 
+        # initialize total to 0
         total = 0
         for k, v in self.cart.items():
-            k = int(k)  # convert from string of id into integer in order to compare with integer pk id of DB
+            k = int(k)  # convert cart id of type string to integer in order to compare with integer pk id in DB
             for product in products:
                 if k == product.id:
                     # account for if product is on sale
@@ -151,9 +173,8 @@ class Cart:
                         each_item_total = product.sale_price * v
                         total += each_item_total
                     else:
-                        each_item_total = product.price * v
+                        each_item_total = product.price * v  # price column/attribute in Product model * quantity
                         total += each_item_total
-
         return total
 
     def __len__(self):
