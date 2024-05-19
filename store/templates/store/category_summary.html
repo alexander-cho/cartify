@@ -14,9 +14,22 @@
     </div>
 </header>
 <!-- Section -->
-<p>
+<br>
 {% for category in categories %}
-    <h4><a href="{% url 'category' category.name %}">{{ category }}</a><br></h4>
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="..." class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">{{ category.name }}</h5>
+                <p class="card-text">Add a description about this particular category.</p>
+                <a href="{% url 'category' category.name %}">{{ category }}</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endfor %}
-</p>
+
 {% endblock %}
