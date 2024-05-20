@@ -202,6 +202,9 @@ def category_summary(request):
 
 # product/description search functionality
 def search(request):
+    """
+    This view gives the user functionality to search for a particular product by its name or its description.
+    """
     # determine if user filled out the form
     if request.method == 'POST':
         search_content = request.POST['searched']  # store/search.html; get the value passed into name="searched"
