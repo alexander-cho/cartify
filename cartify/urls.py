@@ -22,8 +22,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('store.urls')),  # include urls in store app
+    path('', include('store.urls')),
     path('cart/', include('cart.urls')),
     path('payment/', include('payment.urls')),
     path('reviews/', include('reviews.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # Add a URL pattern for serving media files during development, using the MEDIA_URL and MEDIA_ROOT settings from settings.py
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Add a URL pattern for serving media files during development, using the MEDIA_URL and MEDIA_ROOT settings from settings.py

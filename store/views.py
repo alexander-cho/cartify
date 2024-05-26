@@ -184,8 +184,8 @@ def category(request, c):
         category = Category.objects.get(name=c)
         products = Product.objects.filter(category=category)
         return render(request, 'store/category.html', {'products': products, 'category': category})
-    except:
-        messages.success(request, ('That category does not exist'))
+    except Category.DoesNotExist:
+        messages.success(request, 'That category does not exist')
         return redirect('home')
 
 

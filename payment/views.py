@@ -11,7 +11,7 @@ from cart.cart import Cart
 def checkout(request):
     # Get the cart
     cart = Cart(request)
-    cart_contents = cart.get_cart()
+    cart_contents = cart.get_cart_contents()
     quantities = cart.get_quantities()  # dictionary- {product id: quantity}
     cart_total = cart.calculate_total()
 
@@ -31,9 +31,13 @@ def billing_info(request):
     if request.POST:
         # Get the cart
         cart = Cart(request)
-        cart_contents = cart.get_cart()
+        cart_contents = cart.get_cart_contents()
         quantities = cart.get_quantities()  # dictionary- {product id: quantity}
         cart_total = cart.calculate_total()
+
+        # create a session with shipping information
+        my_shipping_info = request.POST
+        request.session['my_shipping_info'] = my_shipping_info
 
         # check to see if user is logged in
         if request.user.is_authenticated:
@@ -43,11 +47,25 @@ def billing_info(request):
         else:
             billing_form = PaymentForm()
             return render(request, 'payment/billing_info.html',{'cart_contents': cart_contents, 'quantities': quantities, 'cart_total': cart_total, 'shipping_info': request.POST, 'billing_form': billing_form})
-
-        # return render(request, 'payment/billing_info.html',{'cart_contents': cart_contents, 'quantities': quantities, 'cart_total': cart_total, 'shipping_form': shipping_form})
     else:
         messages.success(request, 'Access denied')
         return redirect('home')
+
+
+def process_order(request):
+    # make sure a post request was submitted from the billing info page
+    if request.POST:
+        # get billing info from last page
+        payment_form = PaymentForm(request.POST or None)
+        # get shipping info session data , it's been submitted in a previous form but not with the billing info
+        my_shipping_info = request.session.get('my_shipping_info')
+        messages.success(request, 'Order placed')
+        return redirect('home')
+    else:
+        messages.success(request, 'Access denied')
+        return redirect('home')
+
+    # return render(request, 'payment/process_order.html')
 
 
 def payment_success(request):

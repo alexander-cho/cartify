@@ -5,8 +5,8 @@
 <header class="bg-dark py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">Checkout</h1>
-            <p class="lead fw-normal text-white-50 mb-0">Here is your order summary</p>
+            <h1 class="display-4 fw-bolder">Processing your order...</h1>
+            <p class="lead fw-normal text-white-50 mb-0">This is temporary</p>
         </div>
     </div>
 </header>
@@ -15,7 +15,7 @@
 
 <div class="container">
     <div class="row">
-    <center>
+    <div style="text-align: center;">
         <div class="card">
             <div class="card-header">
                 Order Summary
@@ -44,15 +44,30 @@
         <div class="card">
             <h5 class="card-header">Shipping Information</h5>
             <div class="card-body">
-                <form method="post" action="{% url 'billing-info' %}">
+                Name: {{ shipping_info.shipping_full_name }} <br>
+                Email: {{ shipping_info.shipping_email }} <br>
+                Address 1: {{ shipping_info.shipping_address1 }} <br>
+                Address 2: {{ shipping_info.shipping_address2 }} <br>
+                City: {{ shipping_info.shipping_city }} <br>
+                State: {{ shipping_info.shipping_state }} <br>
+                ZIPCode: {{ shipping_info.shipping_zipcode }} <br>
+                Country: {{ shipping_info.shipping_country }} <br>
+                <a href="{% url 'checkout' %}" class="btn btn-outline-secondary">Update shipping information</a>
+            </div>
+        </div>
+        <br><br>
+        <div class="card">
+            <h5 class="card-header">Billing Information</h5>
+            <div class="card-body">
+                <form method="post" action="{% url 'process-order' %}">
                     {% csrf_token %}
-                    {{ shipping_form.as_p }}
-                    <button type="submit" class="btn btn-secondary">Continue to Billing</button>
+                    {{ billing_form.as_p }}
+                    <button type="submit" class="btn btn-outline-success">Pay Now</button>
                 </form>
             </div>
         </div>
         <br>
-    </center>
+    </div>
     </div>
 </div>
     <br>

@@ -15,7 +15,7 @@
 
 <div class="container">
     <div class="row">
-    <center>
+    <div style="text-align: center;">
         <div class="card">
             <div class="card-header">
                 Order Summary
@@ -24,9 +24,9 @@
                 {% for product in cart_contents %}
                     {{ product.name }}
                     {% if product.is_on_sale %}
-                        ${{ product.sale_price }}
+                        ${{ product.sale_price }} <br>
                     {% else %}
-                        ${{ product.price }}
+                        ${{ product.price }} <br>
                     {% endif %}
                     Quantity:
                     {% for k, v in quantities.items %}
@@ -59,12 +59,15 @@
         <div class="card">
             <h5 class="card-header">Billing Information</h5>
             <div class="card-body">
-                {{ billing_form.as_p }}
+                <form method="post" action="{% url 'process-order' %}">
+                    {% csrf_token %}
+                    {{ billing_form.as_p }}
+                    <button type="submit" class="btn btn-outline-success">Pay Now</button>
+                </form>
             </div>
         </div>
         <br>
-        <a href="#" class="btn btn-secondary">Pay Now</a>
-    </center>
+    </div>
     </div>
 </div>
     <br>
