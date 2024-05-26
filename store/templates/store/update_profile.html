@@ -15,17 +15,15 @@
 
     <div class="container">
         <div class="row">
-            <center>
-                <div class="col-md-8">
-                    <form method="post" action="{% url 'update-profile' %}">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit" class="btn btn-secondary">Save Changes</button>
-                    </form>
-                    <br>
-                    <a href="{% url 'update-password' %}" class="btn btn-secondary">Update Password</a>
-                </div>
-            </center>
+            <div style="text-align: center;">
+                <form method="post" action="{% url 'update-profile' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-secondary">Save Changes</button>
+                </form>
+                <br>
+                <a href="{% url 'update-password' %}" class="btn btn-secondary">Update Password</a>
+            </div>
         </div>
     </div>
     <br>

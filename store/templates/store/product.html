@@ -16,14 +16,13 @@
                     <p class="card-text"><small class="text-body-secondary">Uploaded on:</small></p>
                     <p class="card-text"><small class="text-body-secondary">Number in stock:</small></p>
                     <p class="card-text"><small class="text-body-secondary">Last purchased on:</small></p>
-                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                    <p>
+                    <p class="card-text"><small class="text-body-secondary">Last updated 3 minutes ago</small></p>
                         {% if product.is_on_sale %}
-                        <!-- Product price -->
-                        <strike>${{ product.price }}</strike>
-                        {{ product.sale_price }}
+                            <!-- Product price -->
+                            <del>${{ product.price }}</del>
+                            <p>{{ product.sale_price }}</p>
                         {% else %}
-                        ${{ product.price }} <br>
+                            <p>${{ product.price }} </p><br>
                         {% endif %}
                         <!-- Dropdown bar to select quantity -->
                         <div class="col-md-2">Quantity:</div>
@@ -36,7 +35,6 @@
                                 <option value="3">5</option>
                             </select>
                         </div>
-                    </p>
                 </div>
                 <a href="{% url 'home' %}" class="btn btn-primary">Go back</a> <br><br>
                 <!-- value : store the product id of the item being added to cart, id: pass to javascript below-->
@@ -70,6 +68,9 @@
             },
             error: function(xhr, errmsg, err) {
                 console.error("An error occurred: " + errmsg)
+                if (err) {
+                    console.error("Error details: " + err.message);
+                }
             }
         });
     })

@@ -96,5 +96,5 @@ class Order(models.Model):
     date_ordered = models.DateField(default=datetime.datetime.today)
     shipping_status = models.BooleanField(default=False)  # set to false, when customer places order it's not been shipped yet
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.product
