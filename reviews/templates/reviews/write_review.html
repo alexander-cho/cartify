@@ -1,7 +1,37 @@
 {% extends 'store/base.html' %}
 
 {% block content %}
-
-    <h1>Leave a Review here</h1>
+<!-- Header -->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Review our service</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Let us know about anything</p>
+        </div>
+    </div>
+</header>
+    
+<br>
+    
+{% if review_form %}
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                Write a review:
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ review_form.as_p }}
+                    <button type="submit" class="btn btn-outline-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div style="text-align: center;">
+        <h3>You must be logged in to leave a review</h3>
+    </div>
+{% endif %}
     
 {% endblock %}

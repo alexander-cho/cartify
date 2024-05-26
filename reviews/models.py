@@ -5,8 +5,8 @@ from django.db.models import Avg
 
 
 class Review(models.Model):
-    poster = models.ForeignKey(User, on_delete=models.CASCADE)
-    text_content = models.TextField()
+    poster = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    text_content = models.TextField(max_length=500)
     date_posted = models.DateTimeField(auto_now_add=True)
     star_rating = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)]

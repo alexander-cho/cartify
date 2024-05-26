@@ -58,10 +58,10 @@ def login_user(request):
                 for k, v in cart_as_dict.items():
                     cart.add_from_db(product=k, quantity=v)
 
-            messages.success(request, 'You have been logged in')
+            messages.success(request, "You have been logged in")
             return redirect('home')
         else:
-            messages.success(request, 'There was an error, please try again')
+            messages.success(request, "There was an error, please try again")
             return redirect('login')
     else:
         return render(request, 'store/login.html', {})
@@ -73,7 +73,7 @@ def logout_user(request):
     Assumes: logout function from django's authentication framework.
     """
     logout(request)
-    messages.success(request, 'You have been logged out')
+    messages.success(request, "You have been logged out")
     return redirect('home')
 
 
@@ -92,10 +92,10 @@ def register_user(request):
             # login user
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, 'You have successfully registered an account, please fill out your billing information')
+            messages.success(request, "You have successfully registered an account, please fill out your billing information")
             return redirect('user-info')
         else:
-            messages.success(request, 'There was a problem registering, try again')
+            messages.success(request, "There was a problem registering, try again")
             return redirect('register')
     else:
         return render(request, 'store/register.html', {'form': form})
@@ -115,10 +115,10 @@ def user_info(request):
         if form.is_valid() or shipping_form.is_valid():
             form.save()
             shipping_form.save()
-            messages.success(request, 'You have updated your profile information')
+            messages.success(request, "You have updated your profile information")
             return redirect('home')
     else:
-        messages.success(request, 'You need to be logged in to access that page')
+        messages.success(request, "You need to be logged in to access that page")
         return redirect('login')
     
     return render(request, 'store/user_info.html', {'form': form, 'shipping_form': shipping_form})
@@ -132,10 +132,10 @@ def update_profile(request):
         if form.is_valid():
             form.save()
             login(request, current_user)
-            messages.success(request, 'You have updated your profile information')
+            messages.success(request, "You have updated your profile information")
             return redirect('home')
     else:
-        messages.success(request, 'You need to be logged in to access that page')
+        messages.success(request, "You need to be logged in to access that page")
         return redirect('login')
 
     return render(request, 'store/update_profile.html', {'form': form})
@@ -151,7 +151,7 @@ def update_password(request):
             if form.is_valid():
                 form.save()
                 # django automatically logs user out upon updating
-                messages.success(request, 'Your password has been updated, please log in again')
+                messages.success(request, "Your password has been updated, please log in again")
                 # login(request, current_user) # log them in after they save changes, but right below, redirect back to another page
                 return redirect('login')
             else:
@@ -163,7 +163,7 @@ def update_password(request):
             form = UpdatePasswordForm(current_user)
             return render(request, 'store/update_password.html', {'form': form})
     else:
-        messages.success(request, 'You have to be logged in to access this page')
+        messages.success(request, "You have to be logged in to access this page")
         return redirect('home')
 
 
@@ -185,7 +185,7 @@ def category(request, c):
         products = Product.objects.filter(category=category)
         return render(request, 'store/category.html', {'products': products, 'category': category})
     except Category.DoesNotExist:
-        messages.success(request, 'That category does not exist')
+        messages.success(request, "That category does not exist")
         return redirect('home')
 
 
@@ -211,7 +211,7 @@ def search(request):
         # query products, either for name or description
         products = Product.objects.filter(Q(name__icontains=search_content) | Q(description__icontains=search_content))  # icontains; not case-sensitive
         if not products:
-            messages.success(request, f'Could not find anything for {search_content}, try again')
+            messages.success(request, f"Could not find anything for {search_content}, try again")
             return render(request, 'store/search.html', {})
         else:
             return render(request, 'store/search.html', {'search_content': search_content, 'products': products})
