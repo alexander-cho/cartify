@@ -33,16 +33,16 @@ class ShippingForm(forms.ModelForm):
                                          'placeholder': 'State',
                                          'class': 'form-control'}),
                                      required=False)
-    shipping_country = forms.CharField(label='',
-                                       widget=forms.TextInput(attrs={
-                                           'placeholder': 'Country',
-                                           'class': 'form-control'}),
-                                       required=True)
     shipping_zipcode = forms.CharField(label='',
                                        widget=forms.TextInput(attrs={
                                            'placeholder': 'ZIP Code',
                                            'class': 'form-control'}),
                                        required=False)
+    shipping_country = forms.CharField(label='',
+                                       widget=forms.TextInput(attrs={
+                                           'placeholder': 'Country',
+                                           'class': 'form-control'}),
+                                       required=True)
 
     class Meta:
         model = ShippingAddress
@@ -52,8 +52,8 @@ class ShippingForm(forms.ModelForm):
                   'shipping_address2',
                   'shipping_city',
                   'shipping_state',
-                  'shipping_country',
-                  'shipping_zipcode']
+                  'shipping_zipcode',
+                  'shipping_country']
         exclude = ['user',]
 
 
@@ -101,9 +101,9 @@ class PaymentForm(forms.Form):
                                      'placeholder': 'Billing state',
                                      'class': 'form-control'}),
                                  required=True)
-    card_ZIPCode = forms.CharField(label='',
+    card_zipcode = forms.CharField(label='',
                                    widget=forms.TextInput(attrs={
-                                       'placeholder': 'Billing ZIPCode',
+                                       'placeholder': 'Billing ZIP Code',
                                        'class': 'form-control'}),
                                    required=True)
     card_country = forms.CharField(label='',

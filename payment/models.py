@@ -53,7 +53,7 @@ class Order(models.Model):
     """
     Order model
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)  # blank if checking out as guest
     full_name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     shipping_address = models.TextField(max_length=1000)  # shipping label combine address related fields in shipping address model

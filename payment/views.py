@@ -55,10 +55,33 @@ def billing_info(request):
 def process_order(request):
     # make sure a post request was submitted from the billing info page
     if request.POST:
+        # Get the cart total for order info
+        cart = Cart(request)
+        cart_contents = cart.get_cart_contents()
+        quantities = cart.get_quantities()  # dictionary- {product id: quantity}
+        cart_total = cart.calculate_total()
+
         # get billing info from last page
         payment_form = PaymentForm(request.POST or None)
         # get shipping info session data , it's been submitted in a previous form but not with the billing info
         my_shipping_info = request.session.get('my_shipping_info')
+        print(my_shipping_info)
+
+        # GATHER ORDER INFORMATION
+        full_name = my_shipping_info['shipping_full_name']
+        email = my_shipping_info['shipping_email']
+        # using shipping info passed from request, create a single shipping address by concatenating session info
+        shipping_address = f"{my_shipping_info['shipping_address1']}\n{my_shipping_info['shipping_address2']}\n{my_shipping_info['shipping_city']}\n{my_shipping_info['shipping_state']}\n{my_shipping_info['shipping_zipcode']}\n{my_shipping_info['shipping_country']}"
+        amount_paid = cart_total
+
+        if request.user.is_authenticated:
+            # logged in
+            user = request.user
+
+        else:
+            # not logged in
+            pass
+
         messages.success(request, 'Order placed')
         return redirect('home')
     else:
