@@ -1,15 +1,18 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 
 from .forms import ReviewForm
+from .models import Review
 
 
 def review_home(request):
-    return render(request, 'reviews/review_home.html')
+    reviews = Review.objects.all().order_by('-date_posted')
+    return render(request, 'reviews/review_home.html', {'reviews': reviews})
 
 
-def specific_review(request):
-    return render(request, 'reviews/specific_review.html')
+def specific_review(request, pk):
+    review = get_object_or_404(Review, id=pk)
+    return render(request, 'reviews/specific_review.html', {'review': review})
 
 
 def write_review(request):
@@ -32,3 +35,8 @@ def write_review(request):
     else:
         messages.success(request, "You have to be logged in to leave a review")
         return redirect('reviews-home')
+
+
+def edit_review(request, pk):
+    # if a certain amount of time has not passed yet
+    pass

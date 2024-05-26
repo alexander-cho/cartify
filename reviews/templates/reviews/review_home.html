@@ -1,7 +1,32 @@
 {% extends 'store/base.html' %}
 
 {% block content %}
+<!-- Header -->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">All reviews</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Here is what our customers have to say</p>
+        </div>
+    </div>
+</header>
+    
+<br>
+    
+<div class="container">
+<p><a href="{% url 'write-review' %}">Leave a review</a></p>
 
-    <h1>All Reviews</h1>
+{% if reviews %}
+    {% for review in reviews %}
+        <p>
+        User: {{ review.poster }} <br>
+        {{ review.text_content }} <br>
+        Rating: {{ review.star_rating }} <br>
+        {{ review.date_posted }} <br>
+        <a href="{% url 'specific-review' review.pk %}">Click to view</a>
+        </p>
+    {% endfor %}
+{% endif %}
+</div>
     
 {% endblock %}
