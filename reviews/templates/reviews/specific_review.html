@@ -14,11 +14,14 @@
 <br>
     
 <div class="container">
-{{ review.poster }} <br>
-{{ review.text_content }} <br>
-{{ review.star_rating }} <br>
-{{ review.date_posted }} <br>
-<a href="{% url 'reviews-home' %}">Go back</a>
+    <div class="card" style="text-align: center;">
+        <div class="card-body">
+            <h5 class="card-title">{{ review.poster }}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">{{ review.date_posted }}</h6>
+            <p class="card-text">{{ review.text_content }}</p>
+            <p>Rating: {{ review.star_rating }}</p>
+        </div>
+    </div>
 </div>
     
 {% endblock %}

@@ -16,19 +16,18 @@
     <div class="container">
         <div class="row">
             <div style="text-align: center;">
-                <strong>Billing Information</strong>
-                <div class="col-md-8">
-                    <form method="post" action="{% url 'user-info' %}">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <br><br>
-                        <strong>Shipping Information</strong>
-                        {{ shipping_form.as_p }}
-                        <button type="submit" class="btn btn-secondary">Save Changes</button>
-                    </form>
-                    <br>
-                </div>
+                <form method="post" action="{% url 'user-info' %}">
+                    {% csrf_token %}
+                    <strong>Billing Information</strong>
+                    {{ form.as_p }}
+                    <br><br>
+                    <strong>Shipping Information</strong>
+                    {{ shipping_form.as_p }}
+                    <button type="submit" class="btn btn-secondary">Save Changes</button>
+                </form>
             </div>
         </div>
     </div>
+    <br>
+    
 {% endblock %}
