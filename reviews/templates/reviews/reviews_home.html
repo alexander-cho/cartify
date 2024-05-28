@@ -10,12 +10,13 @@
         </div>
     </div>
 </header>
-    
+
 <br>
-    
+
 <div class="container">
     <div style="text-align: center;">
         <p><a class="btn btn-outline-dark" href="{% url 'write-review' %}">Leave a review</a></p>
+        <h6>Average rating: {{ review_average }}</h6>
     </div>
     {% if reviews %}
         {% for review in reviews %}

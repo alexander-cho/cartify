@@ -16,7 +16,8 @@ class Review(models.Model):
     def get_average_ratings():
         average_rating = Review.objects.aggregate(Avg('star_rating'))['star_rating__avg']
         if average_rating is None:
-            return 0  # if there are no reviews yet
+            # if there are no reviews yet
+            return 0
         else:
             return average_rating
 

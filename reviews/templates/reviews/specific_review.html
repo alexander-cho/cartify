@@ -20,6 +20,11 @@
             <h6 class="card-subtitle mb-2 text-body-secondary">{{ review.date_posted }}</h6>
             <p class="card-text">{{ review.text_content }}</p>
             <p>Rating: {{ review.star_rating }}</p>
+            {% if review.poster == request.user %}
+                <a class="btn btn-outline-dark btn-sm" href="{% url 'edit-review' review.pk %}">Edit</a>
+                <a class="btn btn-outline-danger btn-sm" href="{% url 'delete-review' review.pk %}">Delete</a>
+                <a class="btn btn-outline-secondary btn-sm" href="{% url 'reviews-home' %}">Go back</a>
+            {% endif %}
         </div>
     </div>
 </div>

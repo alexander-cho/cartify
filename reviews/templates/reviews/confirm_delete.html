@@ -1,0 +1,31 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+<!-- Header -->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Delete this review</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Are you sure you want to remove this review?</p>
+        </div>
+    </div>
+</header>
+    
+<br>
+    
+<div class="container">
+    <div class="card" style="text-align: center;">
+        <div class="card-body">
+            <h5 class="card-title">{{ review_to_delete.poster }}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">{{ review_to_delete.date_posted }}</h6>
+            <p class="card-text">{{ review_to_delete.text_content }}</p>
+            <p>Rating: {{ review_to_delete.star_rating }}</p>
+            {% if review_to_delete.poster == request.user %}
+                <a class="btn btn-outline-secondary btn-sm" href="{% url 'specific-review' review_to_delete.pk %}">Go back</a>
+                <a class="btn btn-outline-danger btn-sm" href="{% url 'delete-review-confirm' review_to_delete.pk %}">Confirm Delete</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+    
+{% endblock %}
