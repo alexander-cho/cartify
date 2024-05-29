@@ -8,7 +8,7 @@
 <header class="bg-dark py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">All Products</h1>
+            <h1 class="display-4 fw-bolder">All Categories</h1>
             <p class="lead fw-normal text-white-50 mb-0">Browse for your favorite category</p>
         </div>
     </div>
@@ -23,9 +23,8 @@
         </div>
         <div class="col-md-8">
             <div class="card-body">
-                <h5 class="card-title">{{ category.name }}</h5>
-                <p class="card-text">Add a description about this particular category.</p>
-                <a href="{% url 'category' category.name %}">{{ category }}</a>
+                <h5 class="card-title"><a class="btn btn-dark" href="{% url 'category' category.name %}">{{ category.name }}</a></h5>
+                <p class="card-text">View all of {{ category.name }}</p>
             </div>
         </div>
     </div>

@@ -36,7 +36,7 @@
                     {% endfor %}
                     <br><br>
                 {% endfor %}
-                Total: ${{ cart_total }} <br>
+                Total: ${{ cart_total }} <br><br>
                 <a href="{% url 'cart-overview' %}" class="btn btn-sm btn-outline-success">Update cart</a>
             </div>
         </div>
@@ -51,8 +51,8 @@
                 City: {{ shipping_info.shipping_city }} <br>
                 State: {{ shipping_info.shipping_state }} <br>
                 ZIPCode: {{ shipping_info.shipping_zipcode }} <br>
-                Country: {{ shipping_info.shipping_country }} <br>
-                <a href="{% url 'checkout' %}" class="btn btn-outline-secondary">Update shipping information</a>
+                Country: {{ shipping_info.shipping_country }} <br><br>
+                <a href="{% url 'checkout' %}" class="btn btn-sm btn-outline-secondary">Update shipping information</a>
             </div>
         </div>
         <br><br>

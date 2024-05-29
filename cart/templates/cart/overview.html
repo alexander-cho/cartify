@@ -72,7 +72,7 @@
                             </div>
                         {% endif %}
                     </div>
-                    <a href="{% url 'home' %}" class="btn btn-primary">Go back</a> <br> <br>
+                    <a href="{% url 'home' %}" class="btn btn-primary">Back to Store</a> <br> <br>
                     <button type="button" data-index="{{ product.id }}" class="btn btn-secondary" id="cart-update">Update Quantity</button>
                     <!-- data-index: since there be numerous update quantity buttons, assign unique data-index number of product.id to each product -->
                     <button type="button" data-index="{{ product.id }}" class="btn btn-danger" id="cart-delete">Remove from cart</button>

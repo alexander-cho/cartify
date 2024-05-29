@@ -59,6 +59,8 @@ def process_order(request):
     if request.POST:
         # Get the cart total for order info
         cart = Cart(request)
+        cart_contents = cart.get_cart_contents()
+        quantities = cart.get_quantities()
         cart_total = cart.calculate_total()
 
         # get billing info from last page
@@ -74,13 +76,34 @@ def process_order(request):
         shipping_address = f"{my_shipping_info['shipping_address1']}\n{my_shipping_info['shipping_address2']}\n{my_shipping_info['shipping_city']}\n{my_shipping_info['shipping_state']}\n{my_shipping_info['shipping_zipcode']}\n{my_shipping_info['shipping_country']}"
         amount_paid = cart_total
 
-        # create an order
+        # CREATE AN ORDER
         if request.user.is_authenticated:
-            # logged in
+            # if logged in
             user = request.user
             # create order using attributes defined above
             create_order = Order(user=user, full_name=full_name, email=email, shipping_address=shipping_address, amount_paid=amount_paid)
             create_order.save()
+
+            # CREATE ORDER ITEMS (assign model foreign keys)
+            # get the id of the order
+            order_id = create_order.id
+            # get product info
+            for item in cart_contents:
+                # get product id
+                product_id = item.id
+                # get product price
+                if item.is_on_sale:
+                    price = item.sale_price
+                else:
+                    price = item.price
+
+                # get quantities
+                for k, v in quantities.items():
+                    # change k, the key in the cart "dictionary" to an int since it's originally a string
+                    if int(k) == product_id:
+                        # create an order item
+                        create_order_item = OrderItem(order_id=order_id, products_id=product_id, user=user, quantity=v, price=price)
+                        create_order_item.save()
 
             messages.success(request, "Order placed")
             return redirect('home')
@@ -88,6 +111,27 @@ def process_order(request):
             # not logged in, create order without user definition
             create_order = Order(full_name=full_name, email=email, shipping_address=shipping_address, amount_paid=amount_paid)
             create_order.save()
+
+            # CREATE ORDER ITEMS (assign model foreign keys)
+            # get the id of the order
+            order_id = create_order.id
+            # get product info
+            for item in cart_contents:
+                # get product id
+                product_id = item.id
+                # get product price
+                if item.is_on_sale:
+                    price = item.sale_price
+                else:
+                    price = item.price
+
+                # get quantities
+                for k, v in quantities.items():
+                    # change k, the key in the cart "dictionary" to an int since it's originally a string
+                    if int(k) == product_id:
+                        # create an order item
+                        create_order_item = OrderItem(order_id=order_id, products_id=product_id, quantity=v, price=price)
+                        create_order_item.save()
 
             messages.success(request, "Order placed")
             return redirect('home')

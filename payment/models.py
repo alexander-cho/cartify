@@ -68,7 +68,7 @@ class OrderItem(models.Model):
     """
     Represents a single item in the order.
     """
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)  # which order does it belong to
     products = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)  # what products are being purchased in this order
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveBigIntegerField(default=1)  # there has to be one thing at least in an order
