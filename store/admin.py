@@ -1,12 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
-from .models import Category, Customer, Product, Order, Profile
+from .models import Category, Customer, Product, Profile
 
 # Register from models.py
 admin.site.register(Category)
 admin.site.register(Customer)
 admin.site.register(Product)
-admin.site.register(Order)
 admin.site.register(Profile)
 
 
@@ -19,7 +18,7 @@ class ProfileInline(admin.StackedInline):
 class UserAdmin(admin.ModelAdmin):
     model = User
     fields = ['username', 'first_name', 'last_name', 'email']
-    inlines = [ProfileInline]  # include everything in the Profile model for the admin area
+    inlines = [ProfileInline]  # include everything in the Profile model inside each User for the admin area
 
 
 # unregister old format

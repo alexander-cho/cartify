@@ -84,17 +84,3 @@ class Product(models.Model):
 
     def __str__(self) -> str:
         return self.name
-    
-
-# order and shipping info
-class Order(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)  # reference Product model to get product ordered
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)  # reference Customer model
-    quantity = models.IntegerField(default=1)  # default quantity is 1 for there to be an order
-    shipping_address = models.CharField(max_length=100, default='', blank=True)
-    phone_number = models.CharField(max_length=20, default='', blank=True)
-    date_ordered = models.DateField(default=datetime.datetime.today)
-    shipping_status = models.BooleanField(default=False)  # set to false, when customer places order it's not been shipped yet
-
-    def __str__(self):
-        return self.product
