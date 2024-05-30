@@ -1,9 +1,10 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 from store.models import Product
-from django.db.models.signals import post_save
-
-# Create your models here.
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver
 
 
 class ShippingAddress(models.Model):
@@ -61,9 +62,24 @@ class Order(models.Model):
     amount_paid = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     date_ordered = models.DateTimeField(auto_now_add=True)
     is_shipped = models.BooleanField(default=False)
+    date_shipped = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return f'Order of: {str(self.id)}-{self.full_name}'
+
+
+# Automatically add shipping date when is_shipped becomes True
+@receiver(pre_save, sender=Order)
+def save_shipped_date(sender, instance, **kwargs):
+    # verify that the Order instance exists by looking for its primary key,
+    # ensuring signal only processes updates to existing orders, not new orders.
+    if instance.pk:
+        current_time = datetime.datetime.now()
+        # retrieve current state of the order
+        obj = sender._default_manager.get(pk=instance.pk)
+        # set to True
+        if instance.is_shipped and not obj.is_shipped:
+            instance.date_shipped = current_time
 
 
 class OrderItem(models.Model):
