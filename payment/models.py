@@ -66,7 +66,8 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     """
-    Represents a single item in the order.
+    Represents a single item in the order. When the customer checks out, an Order is generated, and everything they
+    purchase becomes an OrderItem, as defined below.
     """
     order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)  # which order does it belong to
     products = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)  # what products are being purchased in this order

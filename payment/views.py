@@ -1,3 +1,5 @@
+from urllib import request
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
@@ -105,10 +107,16 @@ def process_order(request):
                         create_order_item = OrderItem(order_id=order_id, products_id=product_id, user=user, quantity=v, price=price)
                         create_order_item.save()
 
+            # WHEN ORDER IS SUCCESSFULLY PLACED, DELETE THE ITEMS IN THE SESSION CART
+            for key in list(request.session.keys()):
+                if key == 'session_key':
+                    del request.session[key]
+
             messages.success(request, "Order placed")
             return redirect('home')
         else:
-            # not logged in, create order without user definition
+            # IF THEY ARE CHECKING OUT AS GUEST
+            # create order without user definition
             create_order = Order(full_name=full_name, email=email, shipping_address=shipping_address, amount_paid=amount_paid)
             create_order.save()
 
@@ -132,6 +140,11 @@ def process_order(request):
                         # create an order item
                         create_order_item = OrderItem(order_id=order_id, products_id=product_id, quantity=v, price=price)
                         create_order_item.save()
+
+            # WHEN ORDER IS SUCCESSFULLY PLACED, DELETE THE ITEMS IN THE SESSION CART
+            for key in list(request.session.keys()):
+                if key == 'session_key':
+                    del request.session[key]
 
             messages.success(request, "Order placed")
             return redirect('home')
